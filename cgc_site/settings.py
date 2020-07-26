@@ -25,7 +25,7 @@ SECRET_KEY = '@a67vhz%s8&@&4_5=)xu+f&++-)*)4=8p3$it4$t+c-ckc))(7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ALLOWED_HOSTS = ['rghaf.ir', 'cgeeksc-cgc.fandogh.cloud', '198.211.99.20', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ALLOWED_HOSTS = ['cgeeksc.ir', '185.211.58.239', '198.211.99.20', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -104,10 +104,10 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '12345678',
-        'HOST': '127.0.0.1',
+        'NAME': 'cgcdb',
+        'USER': 'cgcdbsuperuser',
+        'PASSWORD': 'Cgc381377@',
+        'HOST': '185.211.58.239',
         'PORT': '5432',
     }
 }
