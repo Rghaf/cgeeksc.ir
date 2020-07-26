@@ -1,0 +1,180 @@
+@import url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css');
+
+body, button, a, span{
+    font-family: "Vazir" !important;
+    text-align: right !important;
+    text-align: justify !important;
+}
+p{
+  font-size: 18px !important;
+}
+
+.block-img {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+  
+/* Centered text */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+.content-img{
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.my-footer{
+    margin-top: 35px !important;
+    background-color: #212529;
+    color: #f1f1f1;
+  }
+
+.profile-block{
+    background-color: gray;
+    border-radius: 25px;
+} 
+
+.my-alert{
+    text-align: right !important;
+    margin: 15px;
+}
+
+.avatar-img{
+    border-radius: 50%;
+    width: 200px;
+    margin: 15px;
+}
+
+.avatar-post{
+  border-radius: 50%;
+  width: 100px;
+  margin: 15px;
+}
+
+.avatar-com{
+  border-radius: 50%;
+  width: 100px;
+  margin-left: 15px;
+}
+
+.social-icons{
+    font-size: 42px;
+    margin: 5px;
+}
+
+.pots-profile{
+    margin: 20px;
+}
+
+.post-img{
+    display: block !important;
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    filter: blur(3px);
+}
+
+.block-img {
+    position: relative;
+    direction: rtl;
+  }
+
+.block-img .content {
+    position: absolute;
+    bottom: 0;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1; 
+    width: 100%;
+    padding: 20px;
+  }
+
+.pic-home{
+    padding: 15px;
+}
+
+.txt-home{
+    padding: 70px 0;
+}
+
+.detail-icon{
+  padding-left: 5px;
+}
+
+.dl-btn{
+  margin: 5px;
+  padding: 5px;
+}
+
+.post-card{
+  text-align: right;
+  text-align: justify;
+}
+
+.my-url{
+  color: #212529;
+}
+
+.my-dark-url{
+  color: #f1f1f1;
+}
+
+.card{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) !important;
+  transition: 0.3s !important;
+  border-radius: 5px !important; /* 5px rounded corners */
+}
+
+p img {
+  max-width: 100% !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dropdown-menu{
+  background-color: lightgray !important;
+  padding: 35px !important;
+  width:70%;
+  text-align: right !important;
+}
+.mega-menu{
+
+  overflow: hidden;
+  padding: 10px;
+  right: 15%;
+
+}
+.mega-menu a{
+  text-decoration: none;
+  color: black;
+
+}
+.mega-menu .sub-menu-heading{
+  color: black;
+}
+
+
+.my-li{
+  width: 100% !important;
+}
+
+.contact{
+  margin: 15px;
+  padding: 15px;
+}
+
+.contact-icon{
+  font-size: 60px;
+  margin: 5px;
+}
+
+.con-head{
+  margin: 15px;
+  text-align: center;
+}

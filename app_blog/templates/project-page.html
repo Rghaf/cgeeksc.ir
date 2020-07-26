@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title-meta %}
+   پروژ‌ه‌ها
+{% endblock title-meta %}
+
+{% block content %}
+
+<div class="container">
+    <br>
+    <div class="card">
+        <div class="card-body text-center">
+            <h1>پروژ‌ه‌ها و نمونه‌کارهای CGC</h1>
+            <p>
+                جامعه گیک‌های کامپیوتر با دارا بودن تیمی جوان و مجرب آماده انجام انواع پروژه در حوزه‌های مرتبط است.
+                شما می‌توانید نمونه‌کارها و محصولات منتشر شده توسط CGC را بررسی کرده و پس از اطمینان از طریق  <a href="{% url 'app-blog:contact' %}">این صفحه</a> با در تماس باشید و سفارش خود را ثبت کنید
+            </p>
+            <p>CGC با تزریق انرژی و انگیزه به ورود کسب و کار شما به دنیای تکنولوژی کمک می کند.</p>
+        </div>   
+    </div>
+    <br>
+    {% for cat in Category  %}
+        <div style="overflow: hidden;">
+            <h2 style="float: right;">{{cat.title}}</h2>
+            <a href="{% url 'app-project:projectcategory' slug=cat.slug %}" style="float: left;"><p>مشاهده همه</p></a></span>
+        </div>
+        <h1></h1>
+        <span>
+        {% if cat.children.all|slice:"0:3" %}
+            <div class="row">
+                {% for proj in cat.children.all %}
+                    <div class="col-sm-12 col-md-4">
+                        <div class="card text-center">
+                            {% if proj.image %}
+                                {% thumbnail proj.image "286x180" crop="center" as im%}
+                                    <img src="{{ im.url }}" class="img-fluid" alt="...">
+                                {% endthumbnail %}
+                            {% else %}
+                                <img class="responsive-img" src="{{ Post.img_th404 }}" style="height: 180px;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title"> {{ proj.title }} </h5>
+                                <p class="card-text"> {{ proj.description|truncatewords:45|safe }} </p>
+                            </div>
+                            {% if proj.youtube_url %}
+                                <a href="{{ proj.youtube_url }}" class="btn btn-danger btn-lg active dl-btn text-center" role="button"><i class="fab fa-youtube detail-icon"></i>ویدیو در یوتوب</a>                                
+                            {% endif %}
+                            {% if proj.github_url %}
+                                <a href="{{ proj.github_url }}" class="btn btn-dark btn-lg active dl-btn text-center" role="button"><i class="fab fa-github detail-icon"></i>پروژه در گیت‌هاب</a>
+                                <hr>
+                            {% endif %}
+                            <a href="{{ proj.get_absolute_url }}" class="card-link text-center"><h5>مشاهده پروژه</h5></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}  
+    {% endfor %}
+</div>
+
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}{% block title-meta %}
+    ارتباط با ما
+{% endblock %}{% endblock %}
+
+{% block content %}
+
+<div class="container text-center contact">
+    <div class="card">
+    <h1 class="text-center" style="padding: 30px;">راه‌های ارتباطی با CGC</h1>
+    <p>
+        تیم مدیریت جامعه گیک‌های کامپیوتر همواره معتقد و خواستار ارتباط متقابل با مخاطبان خود بوده است. 
+        ما در CGC پذیرای نظرات و پیشنهادات شما عزیزان خواهیم بود.
+    </p>
+    <p>
+        CGC راه‌های ارتباطی متنوعی را برای کاربران در نظر گرفته است. شما می‌توانید از طریق یکی از روش‌های زیر با ما در ارتباط باشید
+        تلاش ما بر این است که در سریعترین زمان به پیام‌های شما عزیزان پاسخ دهیم و تمامی پیام‌ها ظرف حداکثر 48 ساعت پاسخ داده خواهند شد.
+    </p>
+    <div class="contact">
+        <h2>جامعه گیگ‌های کامپیوتر در شبکه‌های اجتماعی</h2>
+        <br>
+        <a class="my-url" href=""><i class="fab fa-linkedin-in contact-icon"></i></a>
+        <a class="my-url" href=""><i class="fab fa-instagram contact-icon"></i></a>
+        <a class="my-url" href=""><i class="fab fa-telegram-plane contact-icon"></i></a>
+    </div>
+    <div class="contact">
+        <h2>ارتباط از طریق رایانامه</h2>
+        <br>
+        <h3>info@cgeeksc.ir</h3>
+        <h3>support@cgeeksc.ir</h3>
+    </div>
+    <form class="contact" method="POST">{% csrf_token %}
+        <h2>فرم تماس</h2>
+        <br>
+        {{form.as_p}}
+        <button class="btn btn-info">ارسال پیام</button>
+    </form>
+
+</div>
+</div>
+
+{% endblock content %}
+
+
+    

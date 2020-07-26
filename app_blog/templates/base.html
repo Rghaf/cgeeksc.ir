@@ -1,0 +1,119 @@
+{% load static %}
+{% load mytags %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/logo/favicon.ico' %}"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title> 
+      {% block title-meta %}
+        عنوان صفحه
+      {% endblock title-meta %}
+    </title>
+  </head>
+  <body dir="rtl">
+    <p class="text-center" style="background-color: rgb(19, 0, 141); color: white; margin-bottom: 0rem;">
+        نسخه آزمایشی
+    </p>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <a href="{% url 'app-blog:home' %}"><img src="{% static 'images/logo/logo-main.png' %}"  class="img-circle"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'app-blog:home' %}">صفحه اصلی <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app-event:event-archive' %}">جلسات</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app-project:projects' %}">پروژه‌ها</a>
+          </li>
+          {% category_navbar %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app-blog:contact' %}">ارتباط با ما</a>
+          </li>
+          <!--
+          <li class="nav-item">
+            <a class="nav-link" href="#">درباره ما</a>
+          </li> -->
+        </ul>
+        
+        
+        
+        <div class="form-inline my-2 my-lg-0 mr-auto navbar-nav">
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'app-account:logout' %}">خروج</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'app-account:login' %}">ورود</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'app-account:register' %}">ثبت نام</a>
+            </li>
+          {% endif %}
+          <form action="{% url 'app-blog:search' %}" method="POST">{% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" placeholder="دنبال چیزی هستید؟" aria-label="Search" name="q">
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">جستجو</button>
+          </form>
+        </div>
+        
+      </div>
+    </nav>
+    
+    <div dir="rtl">
+      {% include 'message.html' %}
+      {% block content%}
+      
+      {% endblock %}
+    </div>
+
+      <!-- Site footer -->
+    <footer class="my-footer pt-3 pt-md-5">
+       <div class="container text-center">
+           <div class="row">
+               <div class="col-4 col-md">
+                 <small class="d-block mb-4"><h4>CGC در شبکه‌های اجتماعی</h4></small>
+                 <small class="d-block mb-4">xxxxxx</small>
+                 <small class="d-block mb-4">xxxxxx</small>
+                 <small class="d-block mb-4">xxxxxx</small>
+                 <small class="d-block mb-4">xxxxxx</small>
+               </div>
+               <div class="col-4 col-md">
+                 <small class="d-block mb-4"><h4>اطلاعات بیشتر در مورد جامعه</h4></small>
+                 <small class="d-block mb-4">xxxxxx</small>
+                 <small class="d-block mb-4">xxxxxx</small>
+                 <small class="d-block mb-4">xxxxxx</small>
+                 <small class="d-block mb-4">xxxxxx</small>
+               </div>
+               <div class="col-4 col-md">
+                <small class="d-block mb-4"><h4>مقالات</h4></small>
+                <small class="d-block mb-4">xxxxxx</small>
+                <small class="d-block mb-4">xxxxxx</small>
+                <small class="d-block mb-4">xxxxxx</small>
+                <small class="d-block mb-4">xxxxxx</small>
+               </div>
+           </div>
+         <div class="footer-copyright text-center py-3">تمامی حقوق برای جامعه گیک‌های کامپیوتر محفوظ است.
+         </div>
+       </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

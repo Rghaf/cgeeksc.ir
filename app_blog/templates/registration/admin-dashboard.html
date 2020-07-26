@@ -1,0 +1,76 @@
+{% extends 'registration/admin-base.html' %}
+
+{% block title %}{% block title-meta %}
+    لیست مقالات
+{% endblock %}{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <!-- <div class="card-header"> -->
+          <!-- <h3 class="card-title">Responsive Hover Table</h3> -->
+
+          <!-- <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 120px;">
+              <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+              </div>
+            </div>
+          </div> -->
+        <!-- </div> -->
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>عنوان</th>
+                <th>نویسنده</th>
+                <th>دسته بندی</th>
+                <th>تصویر</th>
+                <th>آدرس</th>
+                <th>تاریخ انتشار</th>
+                <th>وضعیت انتشار</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for post in Post  %}
+                  <tr>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.user.get_full_name }}</td>
+                    <td>{{ post.category }}</td>
+                    <td>
+                      {% if post.image %}
+                        <img src="{{ post.image.url}}" style="width: 120px;" />
+                      {% else %}
+                        <img src="{{ post.img_th404}}" style="width: 120px;" />
+                      {% endif %}
+                    </td>
+                    <td><a href="{% url 'app-blog:post' slug=post.slug %}">مشاهده</a></td>
+                    <td>{{ post.jdate }}</td>
+                    <td><span class="tag tag-success">{{ post.get_status_display }}</span></td>
+                    <td>
+                      <span class="badge badge-danger">
+                        <a href="{% url 'app-account:delete-post' pk=post.pk %}"><i class="fas fa-trash-alt"></i></a>
+                      </span>
+                      <span class="badge badge-info">
+                          <a href="{% url 'app-account:edit-post' pk=post.pk %}"><i class="fas fa-edit"></i></a>
+                      </span>
+                    </td>
+                  </tr>
+                {% endfor %}     
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+</div>
+    
+{% endblock content %}
+
+    

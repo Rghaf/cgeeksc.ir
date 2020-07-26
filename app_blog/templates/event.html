@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+<style>
+img {
+  display: block !important;
+  width: 100%;
+  min-width: 100%;
+  height: auto;
+  }
+</style>
+
+{% block title-meta %}
+  {{ Event.title }}
+{% endblock title-meta %}
+
+{% block content %}
+  
+  <div class="block-img text-center">
+    {% if Event.image %}
+      {% thumbnail Event.image "1905x762" crop="center" as im%}
+        <img src="{{ im.url }}" class="post-img" alt="Notebook">
+      {% endthumbnail %}
+    {% else %}
+      <img class="responsive-img" src="{{ Event.img_404 }}" style="width: 1200px;">
+    {% endif %}
+      <div class="content text-center">
+        <h1>{{ Event.title }}</h1>
+        <span class="badge badge-light"> {{ Event.jdate }} </span>
+        <span class="badge badge-light"><i class="fas fa-user-alt detail-icon"></i> {{ Event.person }} </span>
+        <span class="badge 
+            {% if Event.status == 'a' %}
+              badge-secondary
+            {% elif Event.status == 'b' %}
+              badge-success
+            {% else %}
+              badge-warning
+            {% endif %}"
+          dir="rtl">{{ Event.get_status_display }}
+        </span>
+      </div>
+  </div>
+  <br>
+
+
+  <div class="container">
+    <div class="card block-txt">
+      <div class="card-body">
+        <p>{{ Event.description|safe }} </p>
+      </div>
+    </div>
+    {% if Event.file_url or Event.youtube_url %}
+    <br>
+    <div class="text-center">
+      <!-- <h4>دانلود فایل‌ها:</h4> -->
+      {% if Event.file_url %}
+        <a href="{{ Event.file_url }}" class="btn btn-primary btn-lg active dl-btn" role="button"><i class="fas fa-file-download detail-icon"></i>دانلود فایل‌های رویداد</a>
+      {% endif %}
+      {% if Event.youtube_url %}
+        <a href="{{ Event.youtube_url }}" class="btn btn-danger btn-lg active dl-btn" role="button"><i class="fab fa-youtube detail-icon"></i>تماشای ویدیو در یوتوب</a>
+      {% endif %}
+    </div>
+    {% endif %}
+    <br>   
+    <h1 class="new text-center">رویدادهای مشابه</h1>
+    <hr class="my">
+    <div class="row">
+      {% for event in Sug %}
+       <div class="col-sm-12 col-md-4">
+        <div class="card text-center">
+          {% if event.image %}
+            {% thumbnail event.image "286x180" crop="center" as im%}
+              <img src="{{ im.url }}" class="img-fluid">
+            {% endthumbnail %}
+          {% else %}
+            <img class="responsive-img" src="{{ event.img_th404 }}" style="height: 180px;">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title"> {{ event.title }} </h5>
+            <p class="card-text"> {{ event.summary|safe }} </p>
+          </div>
+          <div class="card-body">
+            <a href="{{ event.get_absolute_url }}" class="card-link">مشاهده رویداد</a>
+          </div>
+        </div>
+       </div>
+      {% endfor  %}
+    </div>
+  </div>
+  
+{% endblock content %}

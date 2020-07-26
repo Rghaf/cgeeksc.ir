@@ -1,0 +1,66 @@
+{% extends 'registration/admin-base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% block title-meta %}
+    اضافه کردن رویداد
+{% endblock %}{% endblock %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="card card-dark">
+        <div class="card-header">
+            <h4 class="mb-0 ">اطلاعات رویداد</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {{ form.media }}
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form.title|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.slug|as_crispy_field }}
+                        </div>
+                        <div class="col-12">
+                            {{ form.description|as_crispy_field }}
+                        </div>
+                        <div class="col-12" style="margin-bottom: 25px;">
+                            خلاصه
+                            {{ form.summary }}
+                        </div>
+                        <div class="col-12">
+                            {{ form.image|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.person|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.file_url|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.youtube_url|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.status|as_crispy_field }}
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                {{ form.date }}
+                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn btn-info">ذخیره</button>
+            </form>
+        </div> 
+    </div>
+</div>
+
+    
+{% endblock content %}
+    
+    

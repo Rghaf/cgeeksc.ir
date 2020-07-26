@@ -1,0 +1,9 @@
+{% load social_share %}
+
+<div style="font-size: 50px; text-align: right;">
+    <h4 style="display: inline-block;">اشتراک گذاری:</h4>
+    <span style="display: inline-block;">{% post_to_telegram post.title post.get_absolute_url '<i class="fab fa-telegram modal-icon"></i>' %}</span>
+    <a href="whatsapp://send?text={{ post.title }} : {{ post.get_absolute_url }}" data-action="share/whatsapp/share" style="display: inline-block;"><i class="fab fa-whatsapp text-success modal-icon"></i></a>
+    <span style="display: inline-block;">{% post_to_twitter post.title post.get_absolute_url '<i class="fab fa-twitter modal-icon"></i>' %}</span>
+    <span style="display: inline-block;">{% send_email post.title post.title post.get_absolute_url '<i class="fas fa-envelope text-dark modal-icon"></i>' %}</a></span>
+</div>

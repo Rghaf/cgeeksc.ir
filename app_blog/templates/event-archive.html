@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title-meta %}
+    رویدادها
+{% endblock title-meta %}
+
+{% block content %}
+<div class="container">
+    <br>
+    <div class="card">
+        <div class="card-body text-center">
+            <h1>رویدادها</h1>
+            <h5>
+                جزئیات و فایل‌های تمام جلسات و رویدادهای برگزار شده توسط CGC را می‌توانید در این صفحه پیدا کنید.
+            </h5>
+        </div>
+    </div>
+        
+    {% for event in Event %}
+        <div class="pots-profile card mb-3">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img" style="height: 200px;">
+                    {% else %}
+                        <img src="{{ event.img_th404 }}" class="card-img" style="height: 200px;">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <div class="post-card card-body">
+                        <a class="my-url" href="{{ event.get_absolute_url }}"><h5 class="card-title">{{ event.title}}</h5></a>
+                        <p class="card-text">{{ event.summary|safe|truncatewords:45 }}</p>
+                        <span class="badge badge-info">{{ event.jdate }}</span>
+                        <span class="badge
+                            {% if event.status == 'a' %}
+                                badge-secondary
+                            {% elif event.status == 'b' %}
+                                badge-success
+                            {% else %}
+                                badge-warning
+                            {% endif %}"
+                            dir="rtl">{{ event.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if Event.has_other_pages %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if Event.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ Event.previous_page_number }}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% for i in Event.paginator.page_range %}
+                    {% if Event.number == i %}
+                        <li class="page-item disabled"><a class="page-link">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if Event.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ Event.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link disabled" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+
+{% endblock content %}
+    
+
+
+    

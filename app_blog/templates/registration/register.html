@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title-meta %}
+    ثبت نام
+{% endblock title-meta %}
+
+{% block content %}
+  <br>
+  <div class="container text-center">
+    <div class="alert alert-danger" role="alert">
+      <h4>توجه</h4>
+      در صورتی که مایل به فعالیت در سایت به عنوان نویسنده هستید با تیم مدیریتی تماس بگیرید
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h2>ورود/ثبت نام</h2>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <form method="post" novalidate>
+              {% csrf_token %}
+              {{ form.as_p}}
+              <button type="button submit" value="Login" class="btn btn-primary btn-lg">ثبت نام</button>
+            </form>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <br>
+        <a class="text-center" href="{% url 'app-account:login' %}"><p><strong>قبلا ثبت نام کردید؟</strong></p></a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

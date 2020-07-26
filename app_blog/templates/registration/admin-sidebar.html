@@ -1,0 +1,273 @@
+{% load static %}
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'app-blog:home' %}" class="brand-link">
+      <img src="{% static 'images/logo/logo.png' %}" alt="AdminLTE Logo" class="img-circle" style="width: 80px;">
+      <span class="brand-text font-weight-light">مدیریت CGC</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          {% if request.user.profile.image %}
+            <img src="{{ request.user.profile.image.url }}" class="img-circle elevation-2" alt="User Image">
+          {% else %}
+            <img src="{{ request.user.profile.img_404 }}" class="img-circle elevation-2" alt="User Image">
+          {% endif %}
+        </div>
+        <div class="info">
+          <a href="{% url 'app_account:dashboard-profile' pk=request.user.profile.id %}" class="d-block">{{request.user.get_full_name}}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="{% url 'app_account:dashboard-profile' pk=request.user.profile.id %}" class="nav-link">
+              <i class="nav-icon fa fa-user-circle"></i>
+              <p>
+                پروفایل
+                <!-- <span class="right badge badge-info">به زودی</span> -->
+              </p>
+            </a>
+          </li>     
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-edit"></i>
+              <p>
+                مقالات
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'app_account:add-post' %}" class="nav-link">
+                  <i class="fa fa-plus nav-icon"></i>
+                  <p>افزودن مقاله</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app_account:myposts' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>مقالات من</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app_account:draftposts' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>پیش نویس‌ها</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app_account:dashboard' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>همه مقالات</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                دسته بندی‌ها
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'app_account:add-category' %}" class="nav-link">
+                  <i class="fa fa-plus nav-icon"></i>
+                  <p>افزودن دسته بندی</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app_account:dashboard-categoty' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>لیست دسته بندی‌ها</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-bell"></i>
+              <p>
+                رویدادها
+                <i class="fa fa-angle-left right"></i>
+                <!-- <span class="badge badge-info right">6</span> -->
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'app_account:add-event' %}" class="nav-link">
+                  <i class="fa fa-plus nav-icon"></i>
+                  <p>افزودن رویداد</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app-account:finishedevents' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>رویدادهای برگزار شده</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app_account:dashboard-event' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>همه رویدادها</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="far fa-comment-dots"></i>
+              <p>
+                دیدگاه‌ها
+                <i class="fa fa-angle-left right"></i>
+                <!-- <span class="badge badge-info right">6</span> -->
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'app_account:comments' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>همه دیدگاه‌ها</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app-account:draftcomments' %}" class="nav-link">
+                  <i class="fa fa-eye-slash nav-icon"></i>
+                  <p>دیدگاه‌های در انتظار تایید</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-images"></i>
+              <p>
+                اسلایدر
+                <i class="fa fa-angle-left right"></i>
+                <!-- <span class="badge badge-info right">6</span> -->
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'app_account:add-slide' %}" class="nav-link">
+                  <i class="fa fa-plus nav-icon"></i>
+                  <p>افزودن اسلاید</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app_account:dashboard-slider' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>همه اسلایدها</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-sms"></i>
+              <p>
+                پیغام‌ها
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'app_account:messages' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>همه پیغام ها</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="fa fa-eye-slash nav-icon"></i>
+                  <p>پیغام‌های خوانده نشده</p>
+                  <span class="right badge badge-info">به زودی</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-tasks"></i>
+              <p>
+                پروژه‌ها
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'app-account:add-pcategory' %}" class="nav-link">
+                  <i class="fa fa-plus nav-icon"></i>
+                  <p>افزودن دسته بندی</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app-account:dashboard-pcategoty' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>لیست دسته بندی‌ها</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app-account:add-project' %}" class="nav-link">
+                  <i class="fa fa-plus nav-icon"></i>
+                  <p>افزودن پروژه</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'app-account:dashboard-project' %}" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>لیست پروژه‌ها</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-money-check-alt"></i>
+              <p>
+                مالی
+                <span class="right badge badge-info">به زودی</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-users"></i>
+              <p>
+                کاربران
+                <i class="fas fa-angle-left right"></i>
+                <span class="right badge badge-info">به زودی</span>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="fa fa-plus"></i>
+                  <p>افزودن کاربر</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="fa fa-list"></i>
+                  <p>لیست کاربران</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

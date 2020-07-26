@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title-meta %}
+    پاک کردن دسته بندی
+{% endblock title-meta %}
+
+{% block content %}
+  <br>
+  <div class="container text-center">
+    <div class="alert alert-danger" role="alert">
+      <h4>توجه</h4>
+      در صورت پاک کردن دسته بندی تمامی پست‌های دسته بندی پاک خواهد شد     
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <form method="post">{% csrf_token %}
+            <h5>آیا از پاک کردن "{{ object }}" مطمئنید؟</h5>
+            <br>
+            <a href="{% url 'app-account:dashboard' %}" class="text-center btn btn-danger btn-lg active" role="button" aria-pressed="true">لغو و بازگشت به داشبورد</a>
+            <button type="button submit" value="Confirm" class="btn btn-success btn-lg">تایید</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

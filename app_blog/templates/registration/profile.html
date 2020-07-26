@@ -1,0 +1,78 @@
+{% extends 'registration/admin-base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% block title-meta %}
+    حساب کاربری
+{% endblock %}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="text-center">
+          <div class="profile-block">
+              {% if profile.image %}
+                <img class="avatar-img" src="{{profile.image.url}}">
+              {% else %}
+                <img class="avatar-img" src="{{profile.img_404}}">
+              {% endif %}
+              <h2>{{profile.user.get_full_name}}</h2>
+              <h3>درباره من</h3>
+              <p>{{profile.bio|safe}}</p>
+              <a href="{{prfile.instagram}}">
+                <i class="social-icons fab fa-instagram"></i>
+              </a>
+              <i class="social-icons fab fa-linkedin"></i>
+              <i class="social-icons fab fa-github"></i>
+              <i class="social-icons fab fa-telegram"></i>
+              <i class="social-icons fab fa-trello"></i>
+              <br>
+          </div>
+        </div>
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <tbody>
+              <form method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row">
+                      <div class="col-12">
+                        {{ form.bio|as_crispy_field }}
+                      </div>
+                      <div class="col-12">
+                        {{ form.image|as_crispy_field }}
+                      </div>
+                      <div class="col-6">
+                        {{ form.github|as_crispy_field }}
+                      </div>
+                      <div class="col-6">
+                        {{ form.trello|as_crispy_field }}
+                      </div>
+                      <div class="col-6">
+                        {{ form.instagram|as_crispy_field }}
+                      </div>
+                      <div class="col-6">
+                        {{ form.email|as_crispy_field }}
+                      </div>
+                      <div class="col-6">
+                        {{ form.linkedin|as_crispy_field }}
+                      </div>
+                      <div class="col-6">
+                        {{ form.twitter|as_crispy_field }}
+                      </div>             
+                  </div>
+                  <button class="btn btn-info">ذخیره</button>
+              </form>    
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+</div>
+    
+{% endblock content %}
+
+    

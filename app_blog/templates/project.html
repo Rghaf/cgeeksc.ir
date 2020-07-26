@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load social_share %}
+
+{% block title-meta %}
+  {{ Project.title }}
+{% endblock title-meta %}
+
+{% block content %}
+
+  <div class="block-img text-center">
+    {% if Project.image %}
+      {% thumbnail Project.image "1905x762" crop="center" as im%}
+        <img src="{{ im.url }}" class="post-img" alt="Notebook">
+      {% endthumbnail %}
+    {% else %}
+      <img src="{{ Project.img_404 }}" class="post-img" style="width: 1200px;">
+    {% endif %}
+      <div class="content text-center">
+        <h1>{{ Project.title }}</h1>
+        <span class="badge badge-light">
+            <a class="my-url" href="{{ Project.category.get_absolute_url}}"><i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i> {{ Project.category }} </a>
+        </span>
+      </div>
+    
+  </div>
+  <br>
+  <div class="container">
+    <div class="card block-txt">
+      <div class="card-body">
+        <p>{{ Project.description|safe }} </p>
+      </div>
+    </div>
+    <hr>
+    <div>
+    </div>
+    <br>
+    {% if Project.file_url or Project.youtube_url or Project.github_url%}
+    <br>
+    <div class="text-center">
+      <!-- <h4>دانلود فایل‌ها:</h4> -->
+      {% if Project.file_url %}
+        <a href="{{ Project.file_url }}" class="btn btn-primary btn-lg active dl-btn" role="button"><i class="fas fa-file-download detail-icon"></i>دانلود فایل‌ها</a>
+      {% endif %}
+      {% if Project.youtube_url %}
+        <a href="{{ Project.youtube_url }}" class="btn btn-danger btn-lg active dl-btn" role="button"><i class="fab fa-youtube detail-icon"></i>ویدیو در یوتوب</a>
+      {% endif %}
+      {% if Project.github_url %}
+        <a href="{{ Project.github_url }}" class="btn btn-dark btn-lg active dl-btn" role="button"><i class="fab fa-github detail-icon"></i>پروژه در گیت‌هاب</a>
+      {% endif %}
+    </div>
+    {% endif %}
+    <br>   
+    <div class="card border-secondary">
+      <h3 class="card-title text-center" style="margin: 15px;">پشت صحنه پروژه</h3>
+      <div class="media" style="text-align: right;">
+        <div class="media-body">
+          <hr>
+          <h4 class="text-center text-muted">سرپرست پروژه</h4>
+          <div class="card" style="margin: 30px;">
+            <div class="row">
+              <div class="col-sm-4 col-md-2 text-center">
+                {% if Project.head.profile.image %}
+                  <img src="{{ Project.head.profile.image.url }}" class="avatar-post" alt="...">
+                {% else %}
+                  <img src="{{ Project.head.profile.img_404 }}" class="avatar-post" alt="...">
+                {% endif %}
+              </div>
+              <div class="col-sm-8 col-md-10">
+                <br>
+                <h5 class="mt-0 mb-1"><a class="my-url" href="{{ Project.head.profile.get_absolute_url }}">{{ Project.head.get_full_name }}</a></h5>
+                <p>{{ Project.head.profile.bio|safe }} </p>
+              </div>
+            </div>
+          </div>   
+          {% if Project.members %}
+            <h4 class="text-center text-muted">اعضای تیم</h4>
+            {% for member in Project.members.all %}
+              <div class="card" style="margin: 30px;">
+                <div class="row">
+                  <div class="col-sm-4 col-md-2 text-center">
+                    {% if member.profile.image %}
+                      <img src="{{ member.profile.image.url }}" class="avatar-post" alt="...">
+                    {% else %}
+                      <img src="{{ member.profile.img_404 }}" class="avatar-post" alt="...">
+                    {% endif %}
+                  </div>
+                  <div class="col-sm-8 col-md-10">
+                    <br>
+                    <h5 class="mt-0 mb-1"><a class="my-url" href="{{ member.profile.get_absolute_url }}">{{ member.get_full_name }}</a></h5>
+                    <p>{{ member.profile.bio|safe }} </p>
+                  </div>
+                </div>
+              </div>   
+            {% endfor %}
+          {% endif %}
+            
+        </div>
+      </div>
+    </div>
+    <br>
+    <h1 class="new text-center">پروژه‌های مشابه</h1>
+    <hr class="my">
+    <div class="row">
+      {% for project in Sug %}
+       <div class="col-sm-12 col-md-4">
+        <div class="card text-center">
+          {% if project.image %}
+            {% thumbnail project.image "286x180" crop="center" as im%}
+              <img src="{{ im.url }}" class="img-fluid" alt="...">
+            {% endthumbnail %}
+          {% else %}
+            <img class="responsive-img" src="{{ Post.img_th404 }}" style="height: 180px;">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title"> {{ project.title }} </h5>
+            <p class="card-text"> {{ post.description|truncatewords:45|safe }} </p>
+          </div>
+          <div class="card-body">
+            <a href="{{ project.get_absolute_url }}" class="card-link">مشاهده مطلب</a>
+          </div>
+        </div>
+       </div>
+      {% endfor  %}
+    </div>
+    <br>
+    <!-- show comments -->
+  </div>    
+
+{% endblock content %}

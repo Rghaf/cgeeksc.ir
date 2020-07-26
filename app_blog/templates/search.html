@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title-meta %}
+    نتیجه جستجو
+{% endblock title-meta %}
+
+{% block content %}
+
+<div class="container">
+    <br>
+    <div class="card">
+        <div class="card-body text-center">
+            <h1>نتایج جستجو برای <span style="color: red;">{{word}}</span></h1>
+            <h5>تعداد {{Post.count}} مقاله و {{Event.count}} رویداد برای {{word}} یافت شد</h5>
+        </div>
+    </div>
+    <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="post-tab" data-toggle="tab" href="#post" role="tab" aria-controls="post" aria-selected="true">مقالات</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">رویدادها</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="post" role="tabpanel" aria-labelledby="post-tab">
+            {% if Post %}
+                {% for post in Post %}
+                    <div class="pots-profile card mb-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                {% if post.image %}
+                                    <img src="{{ post.image.url }}" class="card-img" style="height: 200px;">
+                                {% else %}
+                                    <img src="{{ post.img_th404 }}" class="card-img" style="height: 200px;">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="post-card card-body">
+                                    <a class="my-url" href="{{ post.get_absolute_url }}"><h5 class="card-title">{{ post.title}}</h5></a>
+                                    <p class="card-text">{{ post.summary|truncatewords:45 }}</p>
+                                    <span class="badge badge-info">{{ post.jdate }}</span>
+                                    <span class="badge badge-info">{{ post.category }}</span>
+                                    {% if post.file_url %}
+                                        <a href="{{ post.file_url }}"><span class="badge badge-dark"><i class="fas fa-download"></i></span></a>
+                                    {% endif %}
+                                    {% if post.youtube_url %}
+                                        <a href="{{ post.youtube_url }}"><span class="badge badge-danger"><i class="fab fa-youtube"></i></span></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h3 class="text-center" style="margin: 30px;">هیچ مقاله‌ای برای نمایش وجود ندارد. لطفا از صحیح بودن کلمه جستجو شده اطمینان حاصل کنید.</h3>
+            {% endif %}
+        </div>
+        <div class="tab-pane fade" id="event" role="tabpanel" aria-labelledby="event-tab">
+            {% if Event %}
+                {% for event in Event %}
+                    <div class="pots-profile card mb-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                {% if event.image %}
+                                    <img src="{{ event.image.url }}" class="card-img" style="height: 200px;">
+                                {% else %}
+                                    <img src="{{ event.img_th404 }}" class="card-img" style="height: 200px;">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="post-card card-body">
+                                    <a class="my-url" href="{{ event.get_absolute_url }}"><h5 class="card-title">{{ event.title}}</h5></a>
+                                    <p class="card-text">{{ event.summary|truncatewords:45 }}</p>
+                                    <span class="badge badge-info">{{ event.jdate }}</span>
+                                    <span class="badge
+                                        {% if event.status == 'a' %}
+                                            badge-secondary
+                                        {% elif event.status == 'b' %}
+                                            badge-success
+                                        {% else %}
+                                            badge-warning
+                                        {% endif %}"
+                                        dir="rtl">{{ event.get_status_display }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="card">
+                    <h3 class="text-center" style="margin: 30px;">هیچ رویدادی برای نمایش وجود ندارد. لطفا از صحیح بودن کلمه جستجو شده اطمینان حاصل کنید.</h3>
+                </div>
+           {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+    
+
+
+    

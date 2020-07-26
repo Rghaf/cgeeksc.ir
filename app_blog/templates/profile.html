@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title-meta %}
+  پروفایل {{ User }}
+{% endblock title-meta %}
+  
+{% block content %}
+<br>
+<div dir="rtl">
+  <div class="container">
+    <div class="text-center">
+      <div class="profile-block">
+          {% if User.profile.image %}
+            <img class="avatar-img" src="{{ User.profile.image.url }}">
+          {% else %}
+            <img class="avatar-img" src="{{ User.profile.img_404 }}">
+          {% endif %}
+          <h1>{{User.get_full_name}}</h1>
+          <h2>درباره من</h2>
+          <p>{{ User.profile.bio|safe }}</p>
+          {% if User.profile.instagram %}
+            <a href="{{ User.profile.instagram }}" class="my-url"><i class="social-icons fab fa-instagram"></i></a>
+          {% endif %}
+          {% if User.profile.linkedin %}
+            <a href="{{ User.profile.instagram }}" class="my-url"><i class="social-icons fab fa-linkedin"></i></a>
+          {% endif %}
+          {% if User.profile.github %}
+            <a href="{{ User.profile.github }}" class="my-url"><i class="social-icons fab fa-github"></i></a>
+          {% endif %}
+          {% if User.profile.trello %}
+            <a href="{{ User.profile.trello }}" class="my-url"><i class="social-icons fab fa-trello"></i></a>
+          {% endif %}
+          {% if User.profile.email %}
+            <a href="{{ User.profile.email }}" class="my-url"><i class="social-icons fas fa-envelope"></i></a>
+          {% endif %}
+          {% if User.profile.twitter %}
+            <a href="{{ User.profile.twitter }}" class="my-url"><i class="social-icons fab fa-twitter"></i></a>
+          {% endif %}                    
+          <br>
+      </div>
+      <br>
+      <h1>
+          مطالب من
+      </h1>
+      {% for post in Post %}
+        <div class="pots-profile card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" class="card-img" style="height: 200px;">
+                {% else %}
+                    <img src="{{ post.img_th404 }}" class="card-img" style="height: 200px;">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+              <div class="post-card card-body">
+                <a class="my-url" href="{{ post.get_absolute_url }}"><h5 class="card-title">{{ post.title}}</h5></a>
+                <p class="card-text">{{ post.summary|safe }}</p>
+                <span class="badge badge-info">{{ post.publish_date }}</span>
+                <span class="badge badge-info">{{ post.category }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      {% if Post.has_other_pages %}
+          <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                  {% if Post.has_previous %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ Post.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item disabled">
+                      <a class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                  </li>
+                  {% endif %}
+                  {% for i in Post.paginator.page_range %}
+                      {% if Post.number == i %}
+                          <li class="page-item disabled"><a class="page-link" href="#">{{ i }}</a></li>
+                      {% else %}
+                          <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                  {% endfor %}
+                  {% if Post.has_next %}
+                      <li class="page-item">
+                          <a class="page-link" href="?page={{ Post.next_page_number }}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                          </a>
+                      </li>
+                  {% else %}
+                      <li class="page-item">
+                          <a class="page-link disabled" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                          </a>
+                      </li>
+                  {% endif %}
+              </ul>
+          </nav>
+      {% endif %}
+          
+        
+    </div>
+  </div>
+</div>
+  
+  {% endblock content %}
+
+   

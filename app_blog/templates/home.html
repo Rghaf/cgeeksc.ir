@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title-meta %}
+  جامعه گیک‌های کامپیوتر | CGC
+{% endblock title-meta %}
+  
+   {% block content%}
+   {{result}}
+      <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          {% for slide in Slider|slice:":5" %}
+            <li data-target="#carouselExampleCaptions" data-slide-to="{{forloop.counter}}" class="active"></li>
+          {% endfor %}
+        </ol>
+        <div class="carousel-inner">
+          {% for slide in Slider|slice:":5" %}
+            <div class="carousel-item {% if forloop.first %} active {% endif %}">
+              {% if slide.image %}
+                <img src="{{ slide.image.url }}" class="d-block w-100" alt="...">
+              {% else %}
+                <img src="{{ slide.img_404 }}" class="d-block w-100" alt="...">
+              {% endif %}
+              <div class="carousel-caption d-none d-md-block">
+                {% if slide.title %}
+                  <h5>{{ slide.title }}</h5>
+                {% endif %}
+                {% if slide.description %}
+                  <p>{{ slide.description|safe }}</p>
+                {% endif %}
+                <p>{{forloop.counter}}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+      <h1 class="text-center" style="padding: 25px;">آخرین مقالات</h1>
+      <div class="container">
+        <div class="card-deck">
+          {% for post in Post %}
+            <div class="card">
+              {% if post.image %}
+                {% thumbnail post.image "286x180" crop="center" as img  %}
+                  <img src="{{ img.url }}" class="img-fluid card-img-top" alt="...">
+                {% endthumbnail %}
+              {% else %}
+                <img src="{{ post.img_th404 }}" class="img-fluid card-img-top" style="height: 219px;">
+              {% endif %}
+                
+              
+              <div class="card-body">
+                <a class="my-url" href="{{ post.get_absolute_url }}"><h4 class="card-title">{{ post.title}}</h4></a>
+                <p class="card-text">{{ post.summary|safe }}</p>
+                <hr>
+                <span class="badge badge-info"><small class="text-muted"></small>{{ post.jdate }}</small></span>
+                <span class="badge badge-info" dir="rtl">
+                  <a class="my-dark-url" href="{{ post.user.profile.get_absolute_url }}">{{ post.user.get_full_name }}</a>
+                </span>
+                <span class="badge badge-info" dir="rtl">
+                  <a class="my-dark-url" href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
+                </span>
+                {% if post.file_url %}
+                    <a href="{{ post.file_url }}"><span class="badge badge-dark"><i class="fas fa-download"></i></span></a>
+                {% endif %}
+                {% if post.youtube_url %}
+                    <a href="{{ post.youtube_url }}"><span class="badge badge-danger"><i class="fab fa-youtube"></i></span></a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <br>
+      <div style="background-color: rgba(99, 159, 161, 0.607);">
+        <br>
+        <div class="container">
+           <div class="row pic-home">
+              <div class="col-md-6">
+                 <img class="content-img" src="{% static 'images/pic-home-2.png' %}">
+              </div>
+              <div class="col-md-6 text-center">
+                <div  class="txt-home">
+                  <h1>جایی برای عاشقان کامپیوتر</h1>
+                  <p>این جامعه یا گروه در واقع جمعی از بچه‌هایی هستن که علاقه‌های مشترکی دارن و در واقع همه علاقه‌مند به یادگیری کامپیوتر و علوم مربوط به اون هستن</p>
+                </div>
+              </div>
+           </div>
+           <div class="row pic-home" dir="ltr">
+              <div class="col-sm-12 col-md-6">
+                 <img class="content-img" src="{% static 'images/pic-home-1.png' %}">
+              </div>
+              <div class="col-sm-12 col-md-6 text-center">
+                <div  class="txt-home">
+                  <h1>CGC یادگیری همراه با</h1>
+                  <p>در واقع ما قراره جمعی باشیم از کسایی که به کامپیوتر علاقه مندن و از انجام کارهای کامپیوتری لذت میبرن و دوست دارن بیشتر یادبگیرن. در نتیجه ما دور هم جمع میشیم تا یادبگیریم و به هم یاد بدیم! </p>
+                </div>
+              </div>
+           </div>
+           <div class="row pic-home">
+              <div class="col-sm-12 col-md-6">
+                 <img class="content-img" src="{% static 'images/pic-home-3.png' %}">
+              </div>
+              <div class="col-sm-12 col-md-6 text-center">
+                <div  class="txt-home">
+                  <h1>شما هم به ما بپیوندید</h1>
+                  <p>هر فردی فارغ از سطح مهارت و حوزه تخصص خودش میتونه عضوی از این جامعه باشه و برای پیشرفت خودش و بقیه تلاش کنه. اگر شما هم یه گیک کامپیوتر هستید خوشحال میشیم به جمع ما بپیوندید. شرکت و حضور تو این جمع رایگان و آزاده.</p>
+                </div>
+              </div>
+           </div>
+        </div>
+      </div>
+
+      <h1 class="text-center" style="padding: 25px;">آخرین جلسات</h1>
+      
+      <div class="container">
+        <div class="card-deck">
+          {% for event in Event %}
+            <div class="card">
+              {% if event.image %}
+                {% thumbnail event.image "286x180" crop="center" as img  %}
+                  <img src="{{ img.url }}" class="img-fluid card-img-top" alt="...">
+                {% endthumbnail %}
+              {% else %}
+                <img src="{{ event.img_th404 }}" class="img-fluid card-img-top" style="height: 219px;">
+              {% endif %}
+                
+              <div class="card-body">
+                <a class="my-url" href="{{ event.get_absolute_url }}"><h5 class="card-title">{{ event.title}}</h5></a>
+                <p class="card-text">{{ event.summary|safe }}</p>
+                <span class="badge badge-info"><small class="text-muted"></small>{{ event.jdate }}</small></span>
+                <span class="badge 
+                  {% if event.status == 'a' %}
+                    badge-secondary
+                  {% elif event.status == 'b' %}
+                    badge-success
+                  {% else %}
+                    badge-warning
+                  {% endif %}"
+                  dir="rtl">{{ event.get_status_display }}
+                </span>
+              </div>
+            </div>
+          {% endfor %}
+          
+        </div>
+      </div>
+    {% endblock %}
+
+    

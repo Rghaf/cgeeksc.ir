@@ -1,0 +1,42 @@
+{% for cat in Navcat  %}
+    {% if cat.mother == None %}
+        <li class="nav-item dropdown position-static">
+            <a class="nav-link dropdown-toggle" href="{% url 'app-blog:category' slug=cat.slug %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ cat.title }}
+            </a>
+            <div class="dropdown-menu mega-menu" aria-labelledby="navbarDropdown">
+                <div class="row">
+                    {% if cat.childrens.all %}
+                        {% for ccat in cat.childrens.all %}
+                            <div class="col-md-3">
+                                <p><a href="{% url 'app-blog:category' slug=ccat.slug %}">
+                                    <strong class="sub-menu-heading">
+                                        {{ ccat.title }}
+                                    </strong>
+                                </a></p>
+                                {% if ccat.childrens.all %}
+                                    {% for cccat in ccat.childrens.all  %}
+                                        <p><a href="{% url 'app-blog:category' slug=cccat.slug %}">
+                                            {{ cccat.title }}
+                                        </a></p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endfor %} 
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+            
+
+    {% endif %}
+        
+{% endfor %}
+
+    
+
+
+           
+
+
+

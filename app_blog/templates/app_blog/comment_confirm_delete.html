@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title-meta %}
+    پاک کردن دیدگاه
+{% endblock title-meta %}
+
+{% block content %}
+  <br>
+  <div class="container text-center">
+    <div class="alert alert-danger" role="alert">
+      در صورت پاک کردن دیدگاه به هیچ وجه امکان برگشت نیست؛ قبل از تایید اطمینان حاصل کنید 
+    </div>
+    <div class="alert alert-danger" role="alert">
+      <h3>توجه</h3>
+      در صورت پاک کردن دیدگاه تمامی پاسخ‌های این دیدگاه هم پاک خواهند شد
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <form method="post">{% csrf_token %}
+            <h5>آیا از پاک کردن "{{ object }}" مطمئنید؟</h5>
+            <br>
+            <a href="{% url 'app-account:dashboard' %}" class="text-center btn btn-danger btn-lg active" role="button" aria-pressed="true">لغو و بازگشت به داشبورد</a>
+            <button type="button submit" value="Confirm" class="btn btn-success btn-lg">تایید</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
