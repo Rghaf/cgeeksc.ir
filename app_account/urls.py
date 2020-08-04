@@ -1,17 +1,19 @@
 from django.urls import path, include
 from app_account import views
-from app_account.views import ProfileView, PostCreateView, CategoryCreateView, EventCreateView, PostUpdateView, PostDeleteView, CategoryUpdateView, EventUpdateView, CategoryDeleteView, EventDeleteView, SliderCreateView, SliderUpdateView, SlideDeleteView, CommentUpdateView, CommentDeleteView, ContactDeleteView, PCategoryCreateView, PCategoryUpdateView, PCategoryDeleteView, ProjectCreateView, ProjectUpdateView, ProjectDeleteView
+from app_account.views import ProfileView, PostCreateView, CategoryCreateView, EventCreateView, PostUpdateView, PostDeleteView, CategoryUpdateView, EventUpdateView, CategoryDeleteView, EventDeleteView, SliderCreateView, SliderUpdateView, SlideDeleteView, CommentUpdateView, CommentDeleteView, ContactDeleteView, PCategoryCreateView, PCategoryUpdateView, PCategoryDeleteView, ProjectCreateView, ProjectUpdateView, ProjectDeleteView, ContactUpdateView, DSMessageView
 
 urlpatterns = [
     #login
     path('login/', views.loginview, name='login'),
     path('register/', views.registerview, name='register'),
     path('logout/', views.logoutview, name='logout'),
-    
+    path('password/', views.change_password, name='change_password'),
+
     path('profile/<str:username>', views.profile, name='profile'),
     # lists
     path('dashboard', views.dashboard, name='dashboard'),
     path('dashboard/messages', views.MessageView, name='messages'),
+    path('dashboard/dsmessages', views.DSMessageView, name='dsmessages'),
     path('dashboard/category', views.catdashboard, name='dashboard-categoty'),
     path('dashboard/event', views.eventdashboard, name='dashboard-event'),
     path('dashboard/draftposts', views.draftposts, name='draftposts'),
@@ -37,6 +39,7 @@ urlpatterns = [
     path('dashboard/edit-comment/<int:pk>', CommentUpdateView.as_view(), name='edit-comment'),
     path('dashboard/edit-pcategory/<int:pk>', PCategoryUpdateView.as_view(), name='edit-pcategory'),
     path('dashboard/edit-project/<int:pk>', ProjectUpdateView.as_view(), name='edit-project'),
+    path('dashboard/edit-contact/<int:pk>', ContactUpdateView.as_view(), name='edit-meesage'),
     # delete
     path('dashboard/delete-post/<int:pk>', PostDeleteView.as_view(), name='delete-post'),
     path('dashboard/delete-category/<int:pk>', CategoryDeleteView.as_view(), name='delete-category'),

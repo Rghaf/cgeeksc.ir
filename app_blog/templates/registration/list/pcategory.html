@@ -35,7 +35,7 @@
                 {% for category in Category %}
                   <tr>
                     <td>{{ category.title }}</td>
-                    <td><a href="{% url 'app-blog:category' slug=category.slug %}">مشاهده</a></td>
+                    <td><a href="{% url 'app-project:projectcategory' slug=category.slug %}">مشاهده</a></td>
                     <td>
                         <span class="badge badge-danger">
                             <a href="{% url 'app-account:delete-pcategory' pk=category.pk %}"><i class="fas fa-trash-alt"></i></a>

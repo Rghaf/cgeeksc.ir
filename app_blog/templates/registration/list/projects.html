@@ -39,7 +39,7 @@
                 {% for project in Project %}
                   <tr>
                     <td>{{ project.title }}</td>
-                    <td><a href="{% url 'app-project:project' slug=event.slug %}">مشاهده</a></td>
+                    <td><a href="{% url 'app-project:project' slug=project.slug %}">مشاهده</a></td>
                     <td>{{ project.category }}</td>
                     <td>
                       {% if project.image %}

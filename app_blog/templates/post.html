@@ -6,6 +6,12 @@
   {{ Post.title }}
 {% endblock title-meta %}
 
+
+{% block description-meta %}
+  {{ Post.summary }}
+{% endblock description-meta %}
+  
+
 {% block content %}
 
   <div class="block-img text-center">
@@ -14,7 +20,7 @@
         <img src="{{ im.url }}" class="post-img" alt="Notebook">
       {% endthumbnail %}
     {% else %}
-      <img src="{{ Post.img_404 }}" class="post-img" style="width: 1200px;">
+      <img src="{{ Post.img_404 }}" class="post-img">
     {% endif %}
       <div class="content text-center">
         <h1>{{ Post.title }}</h1>
@@ -151,18 +157,20 @@
                   </div>
                 {% endif %}
                 {% for rep in com.childrens.all %}
-                  <div class="media mt-3">
-                    {% if rep.user.profile.image %}
-                      <img class="avatar-com align-self-start mr-2" src="{{ rep.user.profile.image.url }}">
-                    {% else %}
-                      <img class="avatar-com align-self-start mr-2" src="{{ rep.user.profile.img_404 }}">
-                    {% endif %}
-                    <div class="media-body" style="margin: 15px;">
-                      <h5 class="mt-0">{{rep.user.get_full_name}}</h5>
-                      <p>{{rep.content}}</p>
-                      <span class="badge badge-info"><i class="far fa-calendar-alt detail-icon"></i>{{rep.jdate}}</span>
+                  {% if rep.status == 'a' %}
+                    <div class="media mt-3">
+                      {% if rep.user.profile.image %}
+                        <img class="avatar-com align-self-start mr-2" src="{{ rep.user.profile.image.url }}">
+                      {% else %}
+                        <img class="avatar-com align-self-start mr-2" src="{{ rep.user.profile.img_404 }}">
+                      {% endif %}
+                      <div class="media-body" style="margin: 15px;">
+                        <h5 class="mt-0">{{rep.user.get_full_name}}</h5>
+                        <p>{{rep.content}}</p>
+                        <span class="badge badge-info"><i class="far fa-calendar-alt detail-icon"></i>{{rep.jdate}}</span>
+                      </div>
                     </div>
-                  </div>
+                  {% endif %}
                 {% endfor %}
               </div>
             </div>

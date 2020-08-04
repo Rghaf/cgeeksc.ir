@@ -12,7 +12,7 @@ def projectcategory(request, slug):
     ctx = {}
     category = get_object_or_404(PCategory, slug=slug)
     ctx['Category'] = category
-    ctx['Project'] = Project.objects.all().order_by('-id')
+    ctx['Project'] = Project.objects.all().filter(category=category).order_by('-id')
     return render(request, 'project-category.html', ctx)
 
 def project(request, slug):

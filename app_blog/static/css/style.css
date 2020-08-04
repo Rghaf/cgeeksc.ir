@@ -132,9 +132,20 @@ p{
 
 p img {
   max-width: 100% !important;
+  height: auto !important;
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+blockquote {
+  font-weight: bold;
+  font-style: italic;
+  border-right: 5px solid rgba(0, 0, 0, 0.283) !important;
+  margin: 1.5em 3em 1.5em 1em !important;
+  padding: 1.2em !important;
+  line-height: inherit !important;
+  position: relative !important;
 }
 
 .dropdown-menu{

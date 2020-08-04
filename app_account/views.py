@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponse
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -14,7 +16,7 @@ from app_blog.models import Post, Category, Slider, Comment, Contact
 from app_event.models import Event
 from app_account.models import Profile
 from app_project.models import Project, PCategory
-from app_account.mixins import PostFieldsMixin, PostValidMixin, CategoryFieldsMixin, EventFieldsMixin, UpdatePostMixin, DeletePostMixin, ProfileEditMixin, UpdateCategoryMixin, UpdateEventMixin, DeleteCategoryMixin, DeleteEventMixin, SliderFieldsMixin, UpdateSliderMixin, DeleteSliderMixin, CommentFieldsMixin, UpdateCommentMixin, DeleteCommentMixin, DeleteContactMixin, PCategoryFieldsMixin, UpdatePCategoryMixin, DeletePCategoryMixin, ProjectFieldsMixin, UpdateProjectMixin, DeleteProjectMixin
+from app_account.mixins import PostFieldsMixin, PostValidMixin, CategoryFieldsMixin, EventFieldsMixin, UpdatePostMixin, DeletePostMixin, ProfileEditMixin, UpdateCategoryMixin, UpdateEventMixin, DeleteCategoryMixin, DeleteEventMixin, SliderFieldsMixin, UpdateSliderMixin, DeleteSliderMixin, CommentFieldsMixin, UpdateCommentMixin, DeleteCommentMixin, DeleteContactMixin, PCategoryFieldsMixin, UpdatePCategoryMixin, DeletePCategoryMixin, ProjectFieldsMixin, UpdateProjectMixin, DeleteProjectMixin, ContactFieldsMixin, UpdateContactMixin
 from app_account.forms import UserForm, ProfileForm, LoginForm, RegisterForm
 # Create your views here.
 
@@ -59,6 +61,22 @@ def logoutview(request):
     logout(request)
     messages.success(request, 'شما با موفقیت خارج شدید', 'success')
     return redirect('app-blog:home')
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'رمزعبور شما با موفقیت تغییر کرد')
+            return redirect('app-blog:home')
+        else:
+            messages.error(request, 'لطفا اخطارهای زیر را برطرف کنید')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {
+        'form': form
+    })
 
 def profile(request, username):
     ctx = {}
@@ -215,8 +233,22 @@ def MessageView(request):
     else:
         return HttpResponse('شما به این صفحه دسترسی ندارید')
 
+def DSMessageView(request):
+    if request.user.profile.is_admin:
+        ctx = {}
+        ctx['Message'] = Contact.objects.all().filter(status='d').order_by("-id")
+        return render(request, 'registration/list/dscontact.html', ctx)
+    else:
+        return HttpResponse('شما به این صفحه دسترسی ندارید')
+        
+
 class ContactDeleteView(LoginRequiredMixin, DeleteContactMixin, DeleteView):
     model = Contact
+    success_url = reverse_lazy('app_account:dashboard')
+
+class ContactUpdateView(LoginRequiredMixin, ContactFieldsMixin, UpdateContactMixin, UpdateView):
+    model = Contact
+    template_name = 'registration/add/editcontact.html'
     success_url = reverse_lazy('app_account:dashboard')
 
 def pcategory(request):

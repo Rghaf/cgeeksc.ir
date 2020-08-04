@@ -1,18 +1,13 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
 
-<style>
-img {
-  display: block !important;
-  width: 100%;
-  min-width: 100%;
-  height: auto;
-  }
-</style>
-
 {% block title-meta %}
   {{ Event.title }}
 {% endblock title-meta %}
+
+{% block description-meta %}
+  {{ Event.summary }}
+{% endblock description-meta %}
 
 {% block content %}
   
@@ -22,7 +17,7 @@ img {
         <img src="{{ im.url }}" class="post-img" alt="Notebook">
       {% endthumbnail %}
     {% else %}
-      <img class="responsive-img" src="{{ Event.img_404 }}" style="width: 1200px;">
+      <img src="{{ Event.img_404 }}" class="post-img">
     {% endif %}
       <div class="content text-center">
         <h1>{{ Event.title }}</h1>

@@ -7,15 +7,17 @@ from django.conf import settings
 import jdatetime
 
 class Slider(models.Model):
-    image = models.ImageField(upload_to = 'images/slider', null = True)
-    title = models.CharField(max_length = 120, null = True, blank = True)
-    description = models.TextField(max_length = 250, null = True, blank = True)
-    link = models.CharField(max_length = 1200, null = True, blank = True)
+    image = models.ImageField(upload_to = 'images/slider', null = True, verbose_name="تصویر")
+    link = models.CharField(max_length = 1200, null = True, blank = True, verbose_name="پیوند", help_text="پیوند باید کامل و همراه با http باشد.")
 
     def __str__(self):
         return "%s" % (self.title)
 
 class Contact(models.Model):
+    STATUS_CHOICES =(
+        ('s', 'دیده شده'),
+        ('d', 'دیده نشده')
+    )
     SUBJECT_CHOISES = (
         ('a', 'تبلیغات'),
         ('b', 'همکاری تجاری'),
@@ -23,18 +25,19 @@ class Contact(models.Model):
         ('d', 'درخواست همکاری'),
         ('e', 'سایر'),
     )
-    title = models.CharField(max_length = 250, null = True)
-    name = models.CharField(max_length = 100, null = True)
-    mail = models.EmailField(max_length = 200, null = True)
-    phone = models.CharField(max_length = 12, null = True, blank = True)
-    subject = models.CharField(max_length = 1, null = True, choices = SUBJECT_CHOISES) 
-    message = models.TextField(max_length = 1500, null = True)
+    title = models.CharField(max_length = 250, null = True, verbose_name='عنوان')
+    name = models.CharField(max_length = 100, null = True, verbose_name='نام شما')
+    mail = models.EmailField(max_length = 200, null = True, verbose_name='ایمیل')
+    phone = models.CharField(max_length = 12, null = True, blank = True, verbose_name='شماره تماس')
+    subject = models.CharField(max_length = 1, null = True, choices = SUBJECT_CHOISES, verbose_name='موضوع') 
+    message = models.TextField(max_length = 1500, null = True, verbose_name='پیام شما')
+    status = models.CharField(max_length = 1, null = True, choices = STATUS_CHOICES, default='d', verbose_name='وضعیت')  
 
 class Category(models.Model):
-    mother = models.ForeignKey("self", null = True, default = None, blank = True, on_delete = models.SET_NULL, related_name='childrens')
-    title = models.CharField(max_length=150, null=True)
-    slug = models.SlugField(max_length=200, null=True)
-    description = RichTextField(max_length=1250, null=True, blank=True)
+    mother = models.ForeignKey("self", null = True, default = None, blank = True, on_delete = models.SET_NULL, related_name='childrens', verbose_name='دسته‌بندی مادر')
+    title = models.CharField(max_length=150, null=True, unique=True, verbose_name='عنوان')
+    slug = models.SlugField(max_length=200, null=True, unique=True, verbose_name='پیوند')
+    description = RichTextField(max_length=1250, null=True, blank=True, verbose_name='توضیحات')
 
     def __str__(self):
         return "%s" % (self.title)
@@ -48,18 +51,18 @@ class Post(models.Model):
         ('published', 'منتشر شده'),
     )
 
-    title = models.CharField(max_length=250, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    slug = models.SlugField(max_length=200, null=True)
-    content = RichTextUploadingField(null = True)
-    summary = models.TextField(max_length = 300, null =  True)
-    image = models.ImageField(upload_to = 'images/posts', null=True, blank=True)
+    title = models.CharField(max_length=250, null=True, verbose_name='عنوان')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, verbose_name='نویسنده')
+    slug = models.SlugField(max_length=200, null=True, unique=True, verbose_name='پیوند')
+    content = RichTextUploadingField(null = True, verbose_name='متن اصلی')
+    summary = models.TextField(max_length = 300, null =True, verbose_name='خلاصه')
+    image = models.ImageField(upload_to = 'images/posts', null=True, verbose_name='تصویر شاخص')
     publish_date = models.DateField(auto_now_add=True)
-    status = models.CharField(null=True, max_length=9, choices=STATUS_CHOICES)
-    category = models.ForeignKey(Category ,on_delete=models.CASCADE, null=True)
-    file_url = models.CharField(max_length=750, null=True, blank=True)
-    youtube_url = models.CharField(max_length=750, null=True, blank=True)
-    refrence = models.TextField(max_length=1500, null=True, blank=True) 
+    status = models.CharField(null=True, max_length=9, choices=STATUS_CHOICES, verbose_name='وضعیت انتشار')
+    category = models.ForeignKey(Category ,on_delete=models.CASCADE, null=True, verbose_name='دسته بندی')
+    file_url = models.CharField(max_length=750, null=True, blank=True, verbose_name='لینک دانلود فایل‌')
+    youtube_url = models.CharField(max_length=750, null=True, blank=True, verbose_name='لینک ویدیو یوتوب')
+    refrence = models.TextField(max_length=1500, null=True, blank=True, verbose_name='منابع') 
     
     def __str__(self):
         return "%s - %s" % (self.title, self.status)
@@ -89,11 +92,11 @@ class Comment(models.Model):
         ('a', 'تایید شده'),
     )
     user = models.ForeignKey(User, on_delete = models.CASCADE, null = True)
-    post = models.ForeignKey(Post, on_delete = models.CASCADE, null = True)
-    content = models.TextField(max_length = 1500, null = True)
+    post = models.ForeignKey(Post, on_delete = models.CASCADE, null = True, verbose_name='پست')
+    content = models.TextField(max_length = 1500, null = True, verbose_name='دیدگاه')
     mother = models.ForeignKey('self', on_delete = models.CASCADE, null = True, blank = True, related_name='childrens')
     date = models.DateField(auto_now_add=True, null = True)
-    status = models.CharField(max_length = 1, default = 'd', choices=STATUS_CHOICES)
+    status = models.CharField(max_length = 1, default = 'd', choices=STATUS_CHOICES, verbose_name='وضعیت تایید')
 
     def jdate(self):
         jdatetime.set_locale('fa_IR')

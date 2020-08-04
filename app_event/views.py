@@ -12,7 +12,7 @@ def event(request, slug):
 
 def archive(request):
     ctx = {}
-    event_list = Event.objects.all()
+    event_list = Event.objects.all().order_by('-date')
     page = request.GET.get('page', 1)
     paginator = Paginator(event_list, 7)
     try:

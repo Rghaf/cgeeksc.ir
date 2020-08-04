@@ -105,7 +105,7 @@ class ProfileEditMixin():
 class SliderFieldsMixin():
     def dispatch(self, request, *args, **kwargs):
         if request.user.profile.is_admin:
-            self.fields = ['image', 'title', 'description', 'link']
+            self.fields = ['image', 'link']
         else:
             raise Http404('شما به این صفحه دسترسی ندارید')
         return super().dispatch(request, *args, **kwargs)
@@ -145,6 +145,22 @@ class UpdateCommentMixin():
 class DeleteCommentMixin():
     def dispatch(self, request, *args, pk, **kwargs):
         comment = get_object_or_404(Comment, pk=pk)
+        if request.user.profile.is_admin:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            raise Http404('شما به این صفحه دسترسی ندارید')
+
+class ContactFieldsMixin():
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.profile.is_admin:
+            self.fields = ['title' ,'name' ,'mail' ,'phone' ,'subject' ,'message' ,'status']
+        else:
+            raise Http404('شما به این صفحه دسترسی ندارید')
+        return super().dispatch(request, *args, **kwargs)
+
+class UpdateContactMixin():
+    def dispatch(self, request, *args, pk, **kwargs):
+        contact = get_object_or_404(Contact, pk=pk)
         if request.user.profile.is_admin:
             return super().dispatch(request, *args, **kwargs)
         else:

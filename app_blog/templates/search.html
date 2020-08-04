@@ -10,7 +10,7 @@
     <br>
     <div class="card">
         <div class="card-body text-center">
-            <h1>نتایج جستجو برای <span style="color: red;">{{word}}</span></h1>
+            <h1>نتایج جستجو برای <span style="font-weight: bold;">"{{word}}"</span></h1>
             <h5>تعداد {{Post.count}} مقاله و {{Event.count}} رویداد برای {{word}} یافت شد</h5>
         </div>
     </div>
@@ -53,7 +53,9 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <h3 class="text-center" style="margin: 30px;">هیچ مقاله‌ای برای نمایش وجود ندارد. لطفا از صحیح بودن کلمه جستجو شده اطمینان حاصل کنید.</h3>
+                <div class="card">
+                    <h3 class="text-center" style="margin: 30px;">هیچ مقاله‌ای برای نمایش وجود ندارد. لطفا از صحیح بودن کلمه جستجو شده اطمینان حاصل کنید.</h3>
+                </div>
             {% endif %}
         </div>
         <div class="tab-pane fade" id="event" role="tabpanel" aria-labelledby="event-tab">

@@ -29,6 +29,9 @@ def search(request):
             ctx['Event'] = Event.objects.filter(Q(title__icontains = word) | Q(description__icontains = word) | Q(summary__icontains = word) | Q(person__icontains = word))
     return render(request, 'search.html', ctx)
 
+def about(request):
+    return render(request, 'aboutus.html')
+
 def contact(request):
     ctx = {}
     form = ContactForm()

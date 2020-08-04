@@ -132,9 +132,18 @@ p{
 
 p img {
   max-width: 100% !important;
+  width: auto;
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+blockquote {
+  background: #f9f9f9 !important;
+  border-right: 5px solid #ccc !important;
+  margin: 1.5em 50px !important;
+  padding: 0.5em 10px !important;
+  quotes: "\201C""\201D""\2018""\2019" !important;
 }
 
 .dropdown-menu{

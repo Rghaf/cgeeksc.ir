@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'app_event.apps.AppEventConfig',
     'app_account.apps.AppAccountConfig',
     'app_project',
+    
+    'django.contrib.sitemaps',
 
     'sorl.thumbnail',
     # 'social_django',
@@ -192,3 +194,10 @@ CKEDITOR_CONFIGS = {
         'height:': 750,
     },
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'cgeeksc.info@gmail.com'
+EMAIL_HOST_PASSWORD = 'aqSWH4sf8B2TuFZ'

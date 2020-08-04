@@ -6,6 +6,10 @@
   {{ Project.title }}
 {% endblock title-meta %}
 
+{% block description-meta %}
+  {{ Project.description|truncatewords:45 }}
+{% endblock description-meta %}
+
 {% block content %}
 
   <div class="block-img text-center">
@@ -73,7 +77,7 @@
               </div>
             </div>
           </div>   
-          {% if Project.members %}
+          {% if Project.members.all %}
             <h4 class="text-center text-muted">اعضای تیم</h4>
             {% for member in Project.members.all %}
               <div class="card" style="margin: 30px;">
@@ -114,7 +118,7 @@
           {% endif %}
           <div class="card-body">
             <h5 class="card-title"> {{ project.title }} </h5>
-            <p class="card-text"> {{ post.description|truncatewords:45|safe }} </p>
+            <p class="card-text"> {{ project.description|truncatewords:45|safe }} </p>
           </div>
           <div class="card-body">
             <a href="{{ project.get_absolute_url }}" class="card-link">مشاهده مطلب</a>

@@ -27,16 +27,13 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>عنوان</th>
                 <th>تصویر</th>
                 <th>پیوند</th>
-                <th>توضیحات</th>
               </tr>
             </thead>
             <tbody>
                 {% for slide in Slider %}
                   <tr>
-                    <td>{{ slide.title }}</td>
                     <td>
                       {% if slide.image %}
                         <img src="{{ slide.image.url }}" style="width: 120px;"/>
@@ -45,7 +42,6 @@
                       {% endif %}
                     </td>
                     <td><a href="{{ slide.link }}">{{ slide.link }}</a></td>
-                    <td>{{ slide.description|safe }}</td>
                     <td>
                         <span class="badge badge-danger">
                             <a href="{% url 'app-account:delete-slide' pk=slide.pk %}"><i class="fas fa-trash-alt"></i></a>
