@@ -3,9 +3,13 @@ from django.contrib import messages
 from django.db.models import Q
 from app_blog.models import Post, Category, Slider, Comment, Contact
 from app_event.models import Event
+from app_project.models import Project
 from app_blog.forms import AddComment, ContactForm
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
+from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 def home(request):
     ctx = {}
@@ -27,6 +31,7 @@ def search(request):
             ctx['word'] = word
             ctx['Post'] = Post.objects.filter(Q(title__icontains = word) | Q(content__icontains = word) | Q(summary__icontains = word))
             ctx['Event'] = Event.objects.filter(Q(title__icontains = word) | Q(description__icontains = word) | Q(summary__icontains = word) | Q(person__icontains = word))
+            ctx['Project'] = Project.objects.filter(Q(title__icontains = word) | Q(description__icontains = word))
     return render(request, 'search.html', ctx)
 
 def about(request):
@@ -59,11 +64,14 @@ def post(request, slug):
             new_commit.post = post
             new_commit.user = request.user
             new_commit.save()
+            return HttpResponseRedirect(reverse('app-blog:post', args=(slug,)))
             messages.success(request, 'نظر شما با موفقیت ثبت شد و بعد از تایید مدیریت منتشر خواهد شد. سپاس از همراهی شما')
+
     return render(request, 'post.html', ctx)
 
 def commentreply(request, post_id, comment_id):
     post = get_object_or_404(Post, pk=post_id)
+    mail = post.user.email
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.method == 'POST':
         form = AddComment(request.POST)
@@ -74,6 +82,9 @@ def commentreply(request, post_id, comment_id):
             new_commit.mother = comment
             new_commit.save()
             messages.success(request, 'پاسخ شما با موفقیت ثبت شد و پس از تایید مدیریت منتشر خواهد شد')
+            send_mail('پاسخ جدیدی برای دیدگاه شما ثبت شده است',
+                'با سلام خدمت شما کاربر گرامی؛ پاسخی جدید برای دیدگاه شما در وبسایت cgeeksc.ir ثبت شده است. شما می‌توانید با مراجعه وبسایت این پاسخ جدید را بررسی کنید.',
+                'cgeeksc.info@gmail.com', [mail,])
     return redirect('app-blog:post', post.slug)
 
 

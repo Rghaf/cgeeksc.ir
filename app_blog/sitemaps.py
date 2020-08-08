@@ -7,7 +7,7 @@ from app_account.models import Profile
 
 class StaticViewSitemap(Sitemap):
     def items(self):
-        return ['app-blog:home', 'app-blog:contact', 'app-blog:search',
+        return ['app-blog:home', 'app-blog:contact', 'app-blog:search', 'app-blog:about',
                 'app-account:login', 'app-account:register',
                 'app-event:event-archive',
                 'app-project:projects'

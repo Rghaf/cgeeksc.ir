@@ -25,7 +25,7 @@ SECRET_KEY = '@a67vhz%s8&@&4_5=)xu+f&++-)*)4=8p3$it4$t+c-ckc))(7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ALLOWED_HOSTS = ['rghaf.ir', 'cgeeksc-cgc.fandogh.cloud', '198.211.99.20', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ALLOWED_HOSTS = ['cgeeksc.ir', '185.211.58.239', '198.211.99.20', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -96,14 +96,6 @@ WSGI_APPLICATION = 'cgc_site.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    # 'ENGINE': 'django.db.backends.postgresql',
-    # 'NAME': 'main',
-    # 'USER': 'postgres',
-    # 'PASSWORD': 'reza381377rgh',
-    # 'HOST': 'cgcdb',
-    # }
-
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
@@ -112,6 +104,14 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'cgcdb',
+    #     'USER': 'cgcdbuser',
+    #     'PASSWORD': 'Cgc962008580Reza@',
+    #     'HOST': 'localhost',
+    # }
 }
 
 
@@ -195,9 +195,11 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'cgeeksc.info@gmail.com'
 EMAIL_HOST_PASSWORD = 'aqSWH4sf8B2TuFZ'
+

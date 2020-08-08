@@ -105,7 +105,7 @@ class ProfileEditMixin():
 class SliderFieldsMixin():
     def dispatch(self, request, *args, **kwargs):
         if request.user.profile.is_admin:
-            self.fields = ['image', 'link']
+            self.fields = ['title', 'image', 'link']
         else:
             raise Http404('شما به این صفحه دسترسی ندارید')
         return super().dispatch(request, *args, **kwargs)

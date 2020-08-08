@@ -11,7 +11,7 @@
     <div class="card">
         <div class="card-body text-center">
             <h1>نتایج جستجو برای <span style="font-weight: bold;">"{{word}}"</span></h1>
-            <h5>تعداد {{Post.count}} مقاله و {{Event.count}} رویداد برای {{word}} یافت شد</h5>
+            <h5>برای {{word}} تعداد {{Post.count}} مقاله و {{Event.count}} رویداد و {{Project.count}} پروژه یافت شد.</h5>
         </div>
     </div>
     <ul class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -20,6 +20,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">رویدادها</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="project-tab" data-toggle="tab" href="#project" role="tab" aria-controls="project" aria-selected="false">پروژه‌ها</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -95,7 +98,34 @@
                     <h3 class="text-center" style="margin: 30px;">هیچ رویدادی برای نمایش وجود ندارد. لطفا از صحیح بودن کلمه جستجو شده اطمینان حاصل کنید.</h3>
                 </div>
            {% endif %}
-
+        </div>
+        <div class="tab-pane fade" id="project" role="tabpanel" aria-labelledby="project-tab">
+            {% if Project %}
+                {% for project in Project %}
+                    <div class="pots-profile card mb-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                {% if project.image %}
+                                    <img src="{{ project.image.url }}" class="card-img" style="height: 200px;">
+                                {% else %}
+                                    <img src="{{ event.img_th404 }}" class="card-img" style="height: 200px;">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="post-card card-body">
+                                    <a class="my-url" href="{{ project.get_absolute_url }}"><h5 class="card-title">{{ project.title}}</h5></a>
+                                    <p class="card-text">{{ project.description|truncatewords:45 }}</p>
+                                    <span class="badge badge-info">{{ project.category }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="card">
+                    <h3 class="text-center" style="margin: 30px;">هیچ پروژه‌ای برای نمایش وجود ندارد. لطفا از صحیح بودن کلمه جستجو شده اطمینان حاصل کنید.</h3>
+                </div>
+           {% endif %}
         </div>
     </div>
 </div>

@@ -156,12 +156,12 @@ class PostCreateView(LoginRequiredMixin, PostFieldsMixin, PostValidMixin, Create
 class CategoryCreateView(LoginRequiredMixin, CategoryFieldsMixin, CreateView):
     model = Category
     template_name = 'registration/add/addcategory.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-categoty')
 
 class EventCreateView(LoginRequiredMixin, EventFieldsMixin, CreateView):
     model = Event
     template_name = 'registration/add/addevent.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-event')
 
 class PostUpdateView(LoginRequiredMixin, PostFieldsMixin, PostValidMixin, UpdatePostMixin, UpdateView):
     model = Post
@@ -171,12 +171,12 @@ class PostUpdateView(LoginRequiredMixin, PostFieldsMixin, PostValidMixin, Update
 class CategoryUpdateView(LoginRequiredMixin, CategoryFieldsMixin, UpdateCategoryMixin, UpdateView):
     model = Category
     template_name = 'registration/add/addcategory.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-categoty')
 
 class EventUpdateView(LoginRequiredMixin, EventFieldsMixin, UpdateEventMixin, UpdateView):
     model = Event
     template_name = 'registration/add/addevent.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-event')
 
 class PostDeleteView(LoginRequiredMixin, DeletePostMixin, DeleteView):
     model = Post
@@ -184,11 +184,11 @@ class PostDeleteView(LoginRequiredMixin, DeletePostMixin, DeleteView):
 
 class CategoryDeleteView(LoginRequiredMixin, DeleteCategoryMixin, DeleteView):
     model = Category
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-categoty')
 
 class EventDeleteView(LoginRequiredMixin, DeleteEventMixin, DeleteView):
     model = Event
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-event')
 
 class ProfileView(LoginRequiredMixin, ProfileEditMixin, FormView, UpdateView):
     model = Profile
@@ -205,25 +205,25 @@ def sliders(request):
 class SliderCreateView(LoginRequiredMixin, SliderFieldsMixin, CreateView):
     model = Slider
     template_name = 'registration/add/addslide.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-slider')
 
 class SliderUpdateView(LoginRequiredMixin, SliderFieldsMixin, UpdateSliderMixin, UpdateView):
     model = Slider
     template_name = 'registration/add/addslide.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-slider')
 
 class SlideDeleteView(LoginRequiredMixin, DeleteSliderMixin, DeleteView):
     model = Slider
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-slider')
 
 class CommentUpdateView(LoginRequiredMixin, CommentFieldsMixin, UpdateCommentMixin, UpdateView):
     model = Comment
     template_name = 'registration/add/editcomment.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:comments')
 
 class CommentDeleteView(LoginRequiredMixin, DeleteCommentMixin, DeleteView):
     model = Comment
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:comments')
 
 def MessageView(request):
     if request.user.profile.is_admin:
@@ -249,7 +249,7 @@ class ContactDeleteView(LoginRequiredMixin, DeleteContactMixin, DeleteView):
 class ContactUpdateView(LoginRequiredMixin, ContactFieldsMixin, UpdateContactMixin, UpdateView):
     model = Contact
     template_name = 'registration/add/editcontact.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:messages')
 
 def pcategory(request):
     ctx = {}
@@ -262,16 +262,16 @@ def pcategory(request):
 class PCategoryCreateView(LoginRequiredMixin, PCategoryFieldsMixin, CreateView):
     model = PCategory
     template_name = 'registration/add/addpcategory.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-pcategoty')
 
 class PCategoryUpdateView(LoginRequiredMixin, PCategoryFieldsMixin, UpdatePCategoryMixin, UpdateView):
     model = PCategory
     template_name = 'registration/add/addpcategory.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-pcategoty')
 
 class PCategoryDeleteView(LoginRequiredMixin, DeletePCategoryMixin, DeleteView):
     model = PCategory
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-pcategoty')
 
 def projects(request):
     ctx = {}
@@ -284,13 +284,13 @@ def projects(request):
 class ProjectCreateView(LoginRequiredMixin, ProjectFieldsMixin, CreateView):
     model = Project
     template_name = 'registration/add/addproject.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-project')
 
 class ProjectUpdateView(LoginRequiredMixin, ProjectFieldsMixin, UpdateProjectMixin, UpdateView):
     model = Project
     template_name = 'registration/add/addproject.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-project')
 
 class ProjectDeleteView(LoginRequiredMixin, DeleteProjectMixin, DeleteView):
     model = Project
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:dashboard-project')

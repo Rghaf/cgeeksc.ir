@@ -18,17 +18,19 @@
           {% for slide in Slider|slice:":5" %}
             <div class="carousel-item {% if forloop.first %} active {% endif %}">
               {% if slide.image %}
-                <img src="{{ slide.image.url }}" class="d-block w-100" alt="...">
+                <a href=" 
+                  {% if slide.link %}
+                    {{ slide.link }}
+                  {% else %}
+                    #
+                  {% endif %}
+                    ">
+                  <img src="{{ slide.image.url }}" class="d-block w-100" alt="...">
+                </a>              
               {% else %}
                 <img src="{{ slide.img_404 }}" class="d-block w-100" alt="...">
               {% endif %}
               <div class="carousel-caption d-none d-block">
-                {% if slide.title %}
-                  <h5>{{ slide.title }}</h5>
-                {% endif %}
-                {% if slide.description %}
-                  <p>{{ slide.description|safe }}</p>
-                {% endif %}
                 <p>{{forloop.counter}}</p>
               </div>
             </div>

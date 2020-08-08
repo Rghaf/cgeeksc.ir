@@ -7,6 +7,7 @@ from django.conf import settings
 import jdatetime
 
 class Slider(models.Model):
+    title = models.CharField(max_length=250, null = True, verbose_name="عنوان")
     image = models.ImageField(upload_to = 'images/slider', null = True, verbose_name="تصویر")
     link = models.CharField(max_length = 1200, null = True, blank = True, verbose_name="پیوند", help_text="پیوند باید کامل و همراه با http باشد.")
 
