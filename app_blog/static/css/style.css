@@ -72,11 +72,11 @@ p{
 }
 
 .post-img{
+    border: 5px solid black;
     display: block !important;
     width: 100%;
     min-width: 100%;
     height: auto;
-    filter: blur(3px);
 }
 
 .block-img {

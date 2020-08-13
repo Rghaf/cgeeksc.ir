@@ -61,6 +61,7 @@ class Post(models.Model):
     publish_date = models.DateField(auto_now_add=True)
     status = models.CharField(null=True, max_length=9, choices=STATUS_CHOICES, verbose_name='وضعیت انتشار')
     category = models.ForeignKey(Category ,on_delete=models.CASCADE, null=True, verbose_name='دسته بندی')
+    github_url = models.CharField(max_length=750, null=True, blank=True, verbose_name='لینک گیت‌هاب')
     file_url = models.CharField(max_length=750, null=True, blank=True, verbose_name='لینک دانلود فایل‌')
     youtube_url = models.CharField(max_length=750, null=True, blank=True, verbose_name='لینک ویدیو یوتوب')
     refrence = models.TextField(max_length=1500, null=True, blank=True, verbose_name='منابع') 

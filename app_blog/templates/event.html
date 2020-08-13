@@ -11,29 +11,30 @@
 
 {% block content %}
   
-  <div class="block-img text-center">
-    {% if Event.image %}
-      {% thumbnail Event.image "1905x762" crop="center" as im%}
-        <img src="{{ im.url }}" class="post-img" alt="Notebook">
-      {% endthumbnail %}
-    {% else %}
-      <img src="{{ Event.img_404 }}" class="post-img">
-    {% endif %}
-      <div class="content text-center">
-        <h1>{{ Event.title }}</h1>
-        <span class="badge badge-light"> {{ Event.jdate }} </span>
-        <span class="badge badge-light"><i class="fas fa-user-alt detail-icon"></i> {{ Event.person }} </span>
-        <span class="badge 
-            {% if Event.status == 'a' %}
-              badge-secondary
-            {% elif Event.status == 'b' %}
-              badge-success
-            {% else %}
-              badge-warning
-            {% endif %}"
-          dir="rtl">{{ Event.get_status_display }}
-        </span>
-      </div>
+  <div class="container">
+    <br>
+    <div class="block-img text-center">
+      {% if Event.image %}
+        <img src="{{ Event.image.url }}" class="post-img" alt="Notebook">
+      {% else %}
+        <img src="{{ Event.img_404 }}" class="post-img">
+      {% endif %}
+        <div class="content text-center">
+          <h1 style="font-size:4vw;">{{ Event.title }}</h1>
+          <span class="badge badge-light"> {{ Event.jdate }} </span>
+          <span class="badge badge-light"><i class="fas fa-user-alt detail-icon"></i> {{ Event.person.get_full_name }} </span>
+          <span class="badge 
+              {% if Event.status == 'a' %}
+                badge-secondary
+              {% elif Event.status == 'b' %}
+                badge-success
+              {% else %}
+                badge-warning
+              {% endif %}"
+            dir="rtl">{{ Event.get_status_display }}
+          </span>
+        </div>
+    </div>
   </div>
   <br>
 
@@ -44,9 +45,14 @@
         <p>{{ Event.description|safe }} </p>
       </div>
     </div>
-    {% if Event.file_url or Event.youtube_url %}
-    <br>
+    <hr>
+    <div>
+      {% with Event as post %}
+        {% include 'components/share.html' %}
+      {% endwith %}
+    </div>
     <div class="text-center">
+      <br>
       <!-- <h4>دانلود فایل‌ها:</h4> -->
       {% if Event.file_url %}
         <a href="{{ Event.file_url }}" class="btn btn-primary btn-lg active dl-btn" role="button"><i class="fas fa-file-download detail-icon"></i>دانلود فایل‌های رویداد</a>
@@ -55,7 +61,6 @@
         <a href="{{ Event.youtube_url }}" class="btn btn-danger btn-lg active dl-btn" role="button"><i class="fab fa-youtube detail-icon"></i>تماشای ویدیو در یوتوب</a>
       {% endif %}
     </div>
-    {% endif %}
     <br>   
     <h1 class="new text-center">رویدادهای مشابه</h1>
     <hr class="my">
@@ -64,9 +69,7 @@
        <div class="col-sm-12 col-md-4">
         <div class="card text-center">
           {% if event.image %}
-            {% thumbnail event.image "286x180" crop="center" as im%}
-              <img src="{{ im.url }}" class="img-fluid">
-            {% endthumbnail %}
+            <img src="{{ event.image.url }}" class="img-fluid">
           {% else %}
             <img class="responsive-img" src="{{ event.img_th404 }}" style="height: 180px;">
           {% endif %}

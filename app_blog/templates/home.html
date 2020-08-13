@@ -51,9 +51,7 @@
           {% for post in Post %}
             <div class="card">
               {% if post.image %}
-                {% thumbnail post.image "286x180" crop="center" as img  %}
-                  <img src="{{ img.url }}" class="img-fluid card-img-top" alt="...">
-                {% endthumbnail %}
+                <img src="{{ post.image.url }}" class="img-fluid card-img-top" alt="...">
               {% else %}
                 <img src="{{ post.img_th404 }}" class="img-fluid card-img-top" style="height: 219px;">
               {% endif %}
@@ -75,6 +73,9 @@
                 {% endif %}
                 {% if post.youtube_url %}
                     <a href="{{ post.youtube_url }}"><span class="badge badge-danger"><i class="fab fa-youtube"></i></span></a>
+                {% endif %}
+                {% if post.youtube_url %}
+                    <a href="{{ post.github_url }}"><span class="badge badge-dark"><i class="fab fa-github"></i></span></a>
                 {% endif %}
               </div>
             </div>
@@ -128,9 +129,7 @@
           {% for event in Event %}
             <div class="card">
               {% if event.image %}
-                {% thumbnail event.image "286x180" crop="center" as img  %}
-                  <img src="{{ img.url }}" class="img-fluid card-img-top" alt="...">
-                {% endthumbnail %}
+                <img src="{{ event.image.url }}" class="img-fluid card-img-top" alt="...">
               {% else %}
                 <img src="{{ event.img_th404 }}" class="img-fluid card-img-top" style="height: 219px;">
               {% endif %}

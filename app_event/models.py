@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
+from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 import jdatetime
 
@@ -17,7 +18,7 @@ class Event(models.Model):
     summary = models.TextField(null = True, max_length = 250, verbose_name='خلاصه')
     image = models.ImageField(upload_to = 'images/events', null=True, verbose_name='تصویر شاخص')
     date = models.DateField(null = True, verbose_name='تاریخ')
-    person = models.CharField(max_length = 70 ,null = True, verbose_name='ارائه دهنده')
+    person = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, verbose_name='ارائه دهنده')
     file_url = models.CharField(max_length = 750, null = True, blank = True, verbose_name='لینک دانلود فایل')
     youtube_url = models.CharField(max_length = 500, null = True, blank = True, verbose_name='لینک ویدیو یوتوب')
     status = models.CharField(max_length=1, null = True, choices = STATUS_CHOICES, verbose_name='وضعیت برگزاری')

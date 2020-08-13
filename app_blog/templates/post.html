@@ -13,33 +13,32 @@
   
 
 {% block content %}
-
-  <div class="block-img text-center">
-    {% if Post.image %}
-      {% thumbnail Post.image "1905x762" crop="center" as im%}
-        <img src="{{ im.url }}" class="post-img" alt="Notebook">
-      {% endthumbnail %}
-    {% else %}
-      <img src="{{ Post.img_404 }}" class="post-img">
-    {% endif %}
-      <div class="content text-center">
-        <h1>{{ Post.title }}</h1>
-        <span class="badge badge-light">
-          {% if Post.category.mother %}
-            <i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i>
-            <a class="my-url" href="{{Post.category.mother.get_absolute_url}}">{{ Post.category.mother }}</a>/
-            <a class="my-url" href="{{ Post.category.get_absolute_url}}"> {{ Post.category }} </a>
-          {% elif Post.category.mother is Null %}
-            <a class="my-url" href="{{ Post.category.get_absolute_url}}"><i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i> {{ Post.category }} </a>
-          {% endif %}
-        </span>
-        <span class="badge badge-light"><i class="far fa-calendar-alt detail-icon" dir="rtl"></i> {{ Post.jdate }} </span>
-        <span class="badge badge-light">
-            <i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i>
-            <a class="my-url" href="{{ Post.user.profile.get_absolute_url }}">{{ Post.user.get_full_name }}</a>
-        </span>     
-      </div>
-    
+  <br>
+  <div class="container">
+    <div class="block-img text-center">
+      {% if Post.image %}
+        <img src="{{ Post.image.url }}" class="post-img" alt="Notebook">
+      {% else %}
+        <img src="{{ Post.img_404 }}" class="post-img">
+      {% endif %}
+        <div class="content text-center">
+          <h1 style="font-size:4vw;">{{ Post.title }}</h1>
+          <span class="badge badge-light">
+            {% if Post.category.mother %}
+              <i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i>
+              <a class="my-url" href="{{Post.category.mother.get_absolute_url}}">{{ Post.category.mother }}</a>/
+              <a class="my-url" href="{{ Post.category.get_absolute_url}}"> {{ Post.category }} </a>
+            {% elif Post.category.mother is Null %}
+              <a class="my-url" href="{{ Post.category.get_absolute_url}}"><i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i> {{ Post.category }} </a>
+            {% endif %}
+          </span>
+          <span class="badge badge-light"><i class="far fa-calendar-alt detail-icon" dir="rtl"></i> {{ Post.jdate }} </span>
+          <span class="badge badge-light">
+              <i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i>
+              <a class="my-url" href="{{ Post.user.profile.get_absolute_url }}">{{ Post.user.get_full_name }}</a>
+          </span>     
+        </div>
+    </div>
   </div>
   <br>
   <div class="container">
@@ -63,18 +62,19 @@
         </div>
       </div>
     {% endif %} 
-    {% if Post.file_url or youtube_url %}
-    <br>
     <div class="text-center">
+      <br>
       <!-- <h4>دانلود فایل‌ها:</h4> -->
-      {% if Post.file_url %}
-        <a href="{{ Post.file_url }}" class="btn btn-primary btn-lg active dl-btn" role="button"><i class="fas fa-file-download detail-icon"></i>دانلود فایل‌ها</a>
-      {% endif %}
       {% if Post.youtube_url %}
         <a href="{{ Post.youtube_url }}" class="btn btn-danger btn-lg active dl-btn" role="button"><i class="fab fa-youtube detail-icon"></i>ویدیو در یوتوب</a>
       {% endif %}
+      {% if Post.file_url %}
+        <a href="{{ Post.file_url }}" class="btn btn-primary btn-lg active dl-btn" role="button"><i class="fas fa-file-download detail-icon"></i>دانلود فایل‌ها</a>
+      {% endif %}
+      {% if Post.github_url %}
+        <a href="{{ Post.github_url }}" class="btn btn-dark btn-lg active dl-btn" role="button"><i class="fab fa-github detail-icon"></i>در گیت‌هاب</a>
+      {% endif %}
     </div>
-    {% endif %}
     <br>     
     <div class="card border-secondary">
       <div class="media" style="text-align: right;">
@@ -104,9 +104,7 @@
        <div class="col-sm-12 col-md-4">
         <div class="card text-center">
           {% if post.image %}
-            {% thumbnail post.image "286x180" crop="center" as im%}
-              <img src="{{ im.url }}" class="img-fluid" alt="...">
-            {% endthumbnail %}
+            <img src="{{ post.image.url }}" class="img-fluid" alt="...">
           {% else %}
             <img class="responsive-img" src="{{ Post.img_th404 }}" style="height: 180px;">
           {% endif %}

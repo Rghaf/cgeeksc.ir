@@ -12,24 +12,21 @@
 
 {% block content %}
 
-  <div class="block-img text-center">
-    {% if Project.image %}
-      {% thumbnail Project.image "1905x762" crop="center" as im%}
-        <img src="{{ im.url }}" class="post-img" alt="Notebook">
-      {% endthumbnail %}
-    {% else %}
-      <img src="{{ Project.img_404 }}" class="post-img" style="width: 1200px;">
-    {% endif %}
-      <div class="content text-center">
-        <h1>{{ Project.title }}</h1>
-        <span class="badge badge-light">
-            <a class="my-url" href="{{ Project.category.get_absolute_url}}"><i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i> {{ Project.category }} </a>
-        </span>
-      </div>
-    
-  </div>
   <br>
   <div class="container">
+    <div class="block-img text-center">
+      {% if Project.image %}
+        <img src="{{ Project.image.url }}" class="post-img" alt="Notebook">
+      {% else %}
+        <img src="{{ Project.img_404 }}" class="post-img" style="width: 1200px;">
+      {% endif %}
+        <div class="content text-center">
+          <h1 style="font-size:4vw;">{{ Project.title }}</h1>
+          <span class="badge badge-light">
+              <a class="my-url" href="{{ Project.category.get_absolute_url}}"><i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i> {{ Project.category }} </a>
+          </span>
+        </div>
+    </div>
     <div class="card block-txt">
       <div class="card-body">
         <p>{{ Project.description|safe }} </p>
@@ -39,9 +36,8 @@
     <div>
     </div>
     <br>
-    {% if Project.file_url or Project.youtube_url or Project.github_url%}
-    <br>
     <div class="text-center">
+      <br>
       <!-- <h4>دانلود فایل‌ها:</h4> -->
       {% if Project.file_url %}
         <a href="{{ Project.file_url }}" class="btn btn-primary btn-lg active dl-btn" role="button"><i class="fas fa-file-download detail-icon"></i>دانلود فایل‌ها</a>
@@ -110,9 +106,7 @@
        <div class="col-sm-12 col-md-4">
         <div class="card text-center">
           {% if project.image %}
-            {% thumbnail project.image "286x180" crop="center" as im%}
-              <img src="{{ im.url }}" class="img-fluid" alt="...">
-            {% endthumbnail %}
+            <img src="{{ project.image.url }}" class="img-fluid" alt="...">
           {% else %}
             <img class="responsive-img" src="{{ Post.img_th404 }}" style="height: 180px;">
           {% endif %}

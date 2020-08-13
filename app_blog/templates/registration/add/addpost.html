@@ -36,10 +36,13 @@
                             {{ form.summary }}
                         </div>
                         <div class="col-6">
+                            {{ form.youtube_url|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
                             {{ form.file_url|as_crispy_field }}
                         </div>
                         <div class="col-6">
-                            {{ form.youtube_url|as_crispy_field }}
+                            {{ form.github_url|as_crispy_field }}
                         </div>
                         <div class="col-12">
                             {{ form.refrence|as_crispy_field }}
