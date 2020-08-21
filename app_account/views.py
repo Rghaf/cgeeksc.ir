@@ -12,6 +12,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
 from app_blog.models import Post, Category, Slider, Comment, Contact
 from app_event.models import Event
 from app_account.models import Profile
@@ -19,6 +27,8 @@ from app_project.models import Project, PCategory
 from app_account.mixins import PostFieldsMixin, PostValidMixin, CategoryFieldsMixin, EventFieldsMixin, UpdatePostMixin, DeletePostMixin, ProfileEditMixin, UpdateCategoryMixin, UpdateEventMixin, DeleteCategoryMixin, DeleteEventMixin, SliderFieldsMixin, UpdateSliderMixin, DeleteSliderMixin, CommentFieldsMixin, UpdateCommentMixin, DeleteCommentMixin, DeleteContactMixin, PCategoryFieldsMixin, UpdatePCategoryMixin, DeletePCategoryMixin, ProjectFieldsMixin, UpdateProjectMixin, DeleteProjectMixin, ContactFieldsMixin, UpdateContactMixin
 from app_account.forms import UserForm, ProfileForm, LoginForm, RegisterForm
 # Create your views here.
+
+UserModel = get_user_model()
 
 def loginview(request):
     if request.method == 'POST':
@@ -51,11 +61,40 @@ def registerview(request):
                     )
                 p = Profile(user=user)
                 p.save()
-                messages.success(request, 'ثبت نام با موفقیت انجام شد', 'success')
+                current_site = get_current_site(request)
+                mail_subject = 'فعالسازی حساب | جامعه گیک‌های کامپیوتر'
+                message = render_to_string('app_account/acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': default_token_generator.make_token(user),
+                })
+                to_email = form.cleaned_data.get('email')
+                email = EmailMessage(
+                    mail_subject, message, to=[to_email]
+                )
+                email.send()
+                messages.success(request, 'ثبت نام با موفقیت انجام شد. لطفا حساب خود را از طریق ایمیلی که برایتان ارسال شده تایید کنید.', 'success')
                 return redirect('app-account:login')
     else:
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
+def activate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = UserModel._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'با سپاس از شما؛ حساب کاربری شما اکنون فعال است و می‌توانید به حساب کاربری خود وارد شوید.', 'success')
+        return redirect('app-account:login')
+    else:
+        return HttpResponse('لینک معتبر نیست')
+
+
 
 def logoutview(request):
     logout(request)
@@ -81,9 +120,11 @@ def change_password(request):
 def profile(request, username):
     ctx = {}
     user = User.objects.get(username=username)
-    post_list = Post.objects.all().filter(user=user)
+    ctx['Event'] = Event.objects.filter(person=user).order_by('-date')
+    ctx['Project'] = Project.objects.filter(head=user).order_by('-id')
+    post_list = Post.objects.filter(user=user).order_by('-id')
     page = request.GET.get('page', 1)
-    paginator = Paginator(post_list, 3)
+    paginator = Paginator(post_list, 5)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -95,16 +136,37 @@ def profile(request, username):
     return render(request, 'profile.html', ctx)
 
 @login_required(redirect_field_name='login')
-def dashboard(request):
+def posts(request):
     ctx = {}
+    drafts = Post.objects.filter(status='draft')
+    for post in drafts:
+        if post.publish_time:
+            if post.publish_time < timezone.now():
+                post.status = 'published'
+                post.save()
     if request.user.profile.is_admin:
-        ctx['Post'] = Post.objects.all().order_by('-id')
+        post_list = Post.objects.all().order_by('-id')
     else:
-        ctx['Post'] = Post.objects.filter(user = request.user).order_by('-id')
-    return render(request, 'registration/admin-dashboard.html', ctx)
+        post_list = Post.objects.filter(user = request.user).order_by('-id')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(post_list, 10)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    ctx['Post'] = posts
+    return render(request, 'registration/list/posts.html', ctx)
 
 @login_required(redirect_field_name='login')
 def draftposts(request):
+    drafts = Post.objects.filter(status='draft')
+    for post in drafts:
+        if post.publish_time:
+            if post.publish_time < timezone.now():
+                post.status = 'published'
+                post.save()
     ctx = {}
     if request.user.profile.is_admin:
         ctx['Post'] = Post.objects.filter(status = 'draft').order_by('-id')
@@ -114,6 +176,12 @@ def draftposts(request):
 
 @login_required(redirect_field_name='login')
 def myposts(request):
+    drafts = Post.objects.filter(status='draft')
+    for post in drafts:
+        if post.publish_time:
+            if post.publish_time < timezone.now():
+                post.status = 'published'
+                post.save()
     ctx = {}
     ctx['Post'] = Post.objects.filter(user=request.user).order_by('-id')
     return render(request, 'registration/list/myposts.html', ctx)
@@ -151,7 +219,7 @@ def draftcomments(request):
 class PostCreateView(LoginRequiredMixin, PostFieldsMixin, PostValidMixin, CreateView):
     model = Post
     template_name = 'registration/add/addpost.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:posts')
 
 class CategoryCreateView(LoginRequiredMixin, CategoryFieldsMixin, CreateView):
     model = Category
@@ -166,7 +234,7 @@ class EventCreateView(LoginRequiredMixin, EventFieldsMixin, CreateView):
 class PostUpdateView(LoginRequiredMixin, PostFieldsMixin, PostValidMixin, UpdatePostMixin, UpdateView):
     model = Post
     template_name = 'registration/add/addpost.html'
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:posts')
 
 class CategoryUpdateView(LoginRequiredMixin, CategoryFieldsMixin, UpdateCategoryMixin, UpdateView):
     model = Category
@@ -180,7 +248,7 @@ class EventUpdateView(LoginRequiredMixin, EventFieldsMixin, UpdateEventMixin, Up
 
 class PostDeleteView(LoginRequiredMixin, DeletePostMixin, DeleteView):
     model = Post
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_account:posts')
 
 class CategoryDeleteView(LoginRequiredMixin, DeleteCategoryMixin, DeleteView):
     model = Category
@@ -244,7 +312,7 @@ def DSMessageView(request):
 
 class ContactDeleteView(LoginRequiredMixin, DeleteContactMixin, DeleteView):
     model = Contact
-    success_url = reverse_lazy('app_account:dashboard')
+    success_url = reverse_lazy('app_admin:dashboard')
 
 class ContactUpdateView(LoginRequiredMixin, ContactFieldsMixin, UpdateContactMixin, UpdateView):
     model = Contact

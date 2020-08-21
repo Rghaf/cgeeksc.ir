@@ -54,6 +54,16 @@
                             <div class="col-6">
                                 {{ form.status|as_crispy_field }}
                             </div>
+                            <div class="col-4">
+                                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                    زمان بندی انتشار :
+                                    {{ form.publish_time }}
+                                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                                <p class="text-muted">در صورتی که مایل هستید پست شما به صورت خودکار منتشر شود روز و ساعت انتشار را مشخص کنید. در غیر این صورت این فیلد را خالی بگذارید.</p>
+                            </div>
                         {% endif %}                            
                     </div>
                     <button class="btn btn-info">ذخیره</button>

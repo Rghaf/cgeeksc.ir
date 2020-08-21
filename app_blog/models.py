@@ -4,6 +4,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.conf import settings
+from django.utils import timezone
 import jdatetime
 
 class Slider(models.Model):
@@ -64,7 +65,8 @@ class Post(models.Model):
     github_url = models.CharField(max_length=750, null=True, blank=True, verbose_name='لینک گیت‌هاب')
     file_url = models.CharField(max_length=750, null=True, blank=True, verbose_name='لینک دانلود فایل‌')
     youtube_url = models.CharField(max_length=750, null=True, blank=True, verbose_name='لینک ویدیو یوتوب')
-    refrence = models.TextField(max_length=1500, null=True, blank=True, verbose_name='منابع') 
+    refrence = models.TextField(max_length=1500, null=True, blank=True, verbose_name='منابع')
+    publish_time = models.DateTimeField(null=True, blank=True, verbose_name='زمانبندی انتشار', help_text='در صورتی که مایل هستید پست به صورت خودکار منتشر شود تاریخ و ساعت مورد نظر را انتخاب کنید. در غیر این صورت این فیلد را خالی بگذارید.')
     
     def __str__(self):
         return "%s - %s" % (self.title, self.status)

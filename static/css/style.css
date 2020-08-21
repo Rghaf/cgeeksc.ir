@@ -72,11 +72,11 @@ p{
 }
 
 .post-img{
+    border: 5px solid black;
     display: block !important;
     width: 100%;
     min-width: 100%;
     height: auto;
-    filter: blur(3px);
 }
 
 .block-img {
@@ -132,18 +132,20 @@ p{
 
 p img {
   max-width: 100% !important;
-  width: auto;
+  height: auto !important;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
 blockquote {
-  background: #f9f9f9 !important;
-  border-right: 5px solid #ccc !important;
-  margin: 1.5em 50px !important;
-  padding: 0.5em 10px !important;
-  quotes: "\201C""\201D""\2018""\2019" !important;
+  font-weight: bold;
+  font-style: italic;
+  border-right: 5px solid rgba(0, 0, 0, 0.283) !important;
+  margin: 1.5em 3em 1.5em 1em !important;
+  padding: 1.2em !important;
+  line-height: inherit !important;
+  position: relative !important;
 }
 
 .dropdown-menu{
@@ -156,7 +158,7 @@ blockquote {
 
   overflow: hidden;
   padding: 10px;
-  right: 0px;
+  right: 15%;
 
 }
 .mega-menu a{
@@ -167,6 +169,7 @@ blockquote {
 .mega-menu .sub-menu-heading{
   color: black;
 }
+
 
 .my-li{
   width: 100% !important;

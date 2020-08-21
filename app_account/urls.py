@@ -8,10 +8,11 @@ urlpatterns = [
     path('register/', views.registerview, name='register'),
     path('logout/', views.logoutview, name='logout'),
     path('password/', views.change_password, name='change_password'),
-
+    path('activate/<uidb64>/<token>/',views.activate, name='activate'),
+    
     path('profile/<str:username>', views.profile, name='profile'),
     # lists
-    path('dashboard', views.dashboard, name='dashboard'),
+    path('dashboard/posts', views.posts, name='posts'),
     path('dashboard/messages', views.MessageView, name='messages'),
     path('dashboard/dsmessages', views.DSMessageView, name='dsmessages'),
     path('dashboard/category', views.catdashboard, name='dashboard-categoty'),

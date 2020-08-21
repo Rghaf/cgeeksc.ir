@@ -1,0 +1,5 @@
+{% autoescape off %}  
+سلام {{ user.get_full_name }},  
+لطفا روی این لینک برای تایید ثبت نام و فعال‌سازی حساب کاربری خود کلیک کنید,http://{{ domain }}{% url 'app-account:activate' uidb64=uid token=token %}  
+در صورتی که این ثبت نام از سمت شما نبوده این ایمیل را نادیده بگیرید..  
+{% endautoescape %}

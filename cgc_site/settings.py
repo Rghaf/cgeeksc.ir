@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'app_event.apps.AppEventConfig',
     'app_account.apps.AppAccountConfig',
     'app_project',
+    'app_admin',
     
     'django.contrib.sitemaps',
 
@@ -101,7 +102,7 @@ DATABASES = {
         'NAME': 'cgcdb',
         'USER': 'cgcuser',
         'PASSWORD': '12345678',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
     }
 
     # 'default': {
@@ -201,4 +202,3 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'cgeeksc.info@gmail.com'
 EMAIL_HOST_PASSWORD = 'aqSWH4sf8B2TuFZ'
-

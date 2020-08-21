@@ -10,12 +10,23 @@ from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils import timezone
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 def home(request):
     ctx = {}
     ctx['Post'] = Post.objects.filter(status='published').order_by('-id')[0:3]
     ctx['Event'] = Event.objects.all().order_by("-date")[0:3]
     ctx['Slider'] = Slider.objects.all().order_by("-id")[0:5]
+    drafts = Post.objects.filter(status='draft')
+    for post in drafts:
+        if post.publish_time:
+            if post.publish_time < timezone.now():
+                post.status = 'published'
+                post.save()
     return render(request, 'home.html', ctx)
 
 def bar(request):
@@ -30,7 +41,7 @@ def search(request):
         if word:
             ctx['word'] = word
             ctx['Post'] = Post.objects.filter(Q(title__icontains = word) | Q(content__icontains = word) | Q(summary__icontains = word))
-            ctx['Event'] = Event.objects.filter(Q(title__icontains = word) | Q(description__icontains = word) | Q(summary__icontains = word) | Q(person__icontains = word))
+            ctx['Event'] = Event.objects.filter(Q(title__icontains = word) | Q(description__icontains = word) | Q(summary__icontains = word))
             ctx['Project'] = Project.objects.filter(Q(title__icontains = word) | Q(description__icontains = word))
     return render(request, 'search.html', ctx)
 
@@ -66,8 +77,25 @@ def post(request, slug):
             new_commit.save()
             return HttpResponseRedirect(reverse('app-blog:post', args=(slug,)))
             messages.success(request, 'نظر شما با موفقیت ثبت شد و بعد از تایید مدیریت منتشر خواهد شد. سپاس از همراهی شما')
-
+    drafts = Post.objects.filter(status='draft')
+    for post in drafts:
+        if post.publish_time:
+            if post.publish_time < timezone.now():
+                post.status = 'published'
+                post.save()
     return render(request, 'post.html', ctx)
+
+def postpdf(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    html_string = render_to_string('pdf/pdf_template.html', {'Post': post})
+    html = HTML(string=html_string)
+    html.write_pdf(target='/tmp/mypdf.pdf');
+    fs = FileSystemStorage('/tmp')
+    with fs.open('mypdf.pdf') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+        return response
+    return response
 
 def commentreply(request, post_id, comment_id):
     post = get_object_or_404(Post, pk=post_id)

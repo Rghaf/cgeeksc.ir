@@ -1,75 +1,141 @@
 {% extends 'registration/admin-base.html' %}
 
 {% block title %}{% block title-meta %}
-    لیست مقالات
+     داشبورد مدیریت
 {% endblock %}{% endblock %}
 
 {% block content %}
 
 <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <!-- <div class="card-header"> -->
-          <!-- <h3 class="card-title">Responsive Hover Table</h3> -->
-
-          <!-- <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 120px;">
-              <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-              </div>
-            </div>
-          </div> -->
-        <!-- </div> -->
-        <!-- /.card-header -->
-        <div class="card-body table-responsive p-0">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>عنوان</th>
-                <th>نویسنده</th>
-                <th>دسته بندی</th>
-                <th>تصویر</th>
-                <th>آدرس</th>
-                <th>تاریخ انتشار</th>
-                <th>وضعیت انتشار</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for post in Post  %}
-                  <tr>
-                    <td>{{ post.title }}</td>
-                    <td>{{ post.user.get_full_name }}</td>
-                    <td>{{ post.category }}</td>
-                    <td>
-                      {% if post.image %}
-                        <img src="{{ post.image.url}}" style="width: 120px;" />
-                      {% else %}
-                        <img src="{{ post.img_th404}}" style="width: 120px;" />
-                      {% endif %}
-                    </td>
-                    <td><a href="{% url 'app-blog:post' slug=post.slug %}">مشاهده</a></td>
-                    <td>{{ post.jdate }}</td>
-                    <td><span class="tag tag-success">{{ post.get_status_display }}</span></td>
-                    <td>
-                      <span class="badge badge-danger">
-                        <a href="{% url 'app-account:delete-post' pk=post.pk %}"><i class="fas fa-trash-alt"></i></a>
-                      </span>
-                      <span class="badge badge-info">
-                          <a href="{% url 'app-account:edit-post' pk=post.pk %}"><i class="fas fa-edit"></i></a>
-                      </span>
-                    </td>
-                  </tr>
-                {% endfor %}     
-            </tbody>
-          </table>
+  <div class="col-md-6">
+    <div class="info-box bg-info">
+      <span class="info-box-icon"><i class="far fa-comment"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">دیدگاه‌ها</span>
+        <span class="info-box-number">{{ Comment }}</span>
+        <div class="progress">
+          <div class="progress-bar" style="width: 100%"></div>
         </div>
-        <!-- /.card-body -->
+        <span class="progress-description">
+          {{ Domment}} دیدگاه در انتظار تایید
+        </span>
       </div>
-      <!-- /.card -->
+      <!-- /.info-box-content -->
     </div>
+    <div class="info-box bg-olive">
+      <span class="info-box-icon"><i class="fas fa-sms"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">پیغام‌ها</span>
+        <span class="info-box-number">{{ Contact }}</span>
+        <div class="progress">
+          <div class="progress-bar" style="width: 100%"></div>
+        </div>
+        <span class="progress-description">
+          {{ Dontact }} پیغام دیده نشده
+        </span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <div class="info-box bg-gray">
+      <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">پست‌ها</span>
+        <span class="info-box-number">{{ Post }}</span>
+        <div class="progress">
+          <div class="progress-bar" style="width: 100%"></div>
+        </div>
+        <span class="progress-description">
+          {{ Dost }} پست پیش نویس
+        </span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <div class="info-box bg-dark">
+      <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">رویداد</span>
+        <span class="info-box-number">{{ Event }}</span>
+        <div class="progress">
+          <div class="progress-bar" style="width: 100%"></div>
+        </div>
+        <span class="progress-description">
+          {{ Devent }} رویداد به اتمام نرسیده
+        </span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card card-default">
+      <div class="card-header">
+        <h4>
+          <i class="fas fa-bullhorn"></i>
+          اعلانات
+        </h4>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        
+        {% if Callout %}
+          {% for call in Callout %}
+            <div class="callout callout-info">
+              <h2>{{ call.title }}</h2>
+              <p>{{ call.message }}</p>
+              <span class="text-muted">{{ call.date }}</span>
+            </div>
+          {% endfor %}
+        {% else %}
+           <h3 class="text-center">اعلانی وجود ندارد</h3>
+        {% endif %}
+          
+        
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+  {% if request.user.profile.is_admin %}  
+    <div class="col-md-6">
+      <div class="card card-default">
+        <div class="card-header">
+          <h4>
+            <i class="fas fa-calendar"></i>
+            تقویم
+          </h4>
+        </div>
+        
+        {% if Calender %}
+          <img href="">
+          <img src="{{ Calender.image.url }}" class="post-img" alt="Notebook">
+        {% endif %}
+          
+      </div>
+    </div>
+  {% endif %}
+  <div class="col-md-6">
+    <div class="card card-default">
+      <div class="card-header">
+        <h4>
+          <i class="fas fa-calendar"></i>
+          فایل‌ها
+        </h4>
+      </div>
+      <div class="container text-center">
+        <br>
+        <a href="{{File.site.url}}" class="btn btn-info btn-lg active dl-btn" role="button"><i class="fa fa-file-download" style="padding-left: 15px;"></i>دانلود فایل‌های گرافیکی سایت</a>
+        <br>
+        <br>
+        <a href="{{File.instagram.url}}" class="btn btn-info btn-lg active dl-btn" role="button"><i class="fa fa-file-download" style="padding-left: 15px;"></i>دانلود فایل‌های گرافیکی اینستاگرام</a>
+        <br>
+        <br>
+        <a href="{{File.calender.url}}" class="btn btn-info btn-lg active dl-btn" role="button"><i class="fa fa-file-download" style="padding-left: 15px;"></i>دانلود فایل‌های تقویم ماهانه</a>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
 </div>
+
     
 {% endblock content %}
 

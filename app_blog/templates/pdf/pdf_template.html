@@ -1,0 +1,25 @@
+{% load static %}
+
+
+<html>
+<head>
+  <title>Test</title>
+
+  <link rel="stylesheet" href="{% static '/css/style.css' %}"/>
+
+  <style>
+    body {
+      background-color: #f7f7f7;
+    }
+  </style>
+</head>
+<body style="text-align:right justify;" dir="rtl">
+  <h1>{{ Post.title }}</h1>
+  <a href="http://cgeeksc.ir"><h3>
+      گردآوری شده توسط جامعه گیک‌های کامپیوتر
+  </h3></a>
+  <p>{{ Post.content|safe}}</p>
+  <h4>
+      نویسنده: {{ Post.user.get_full_name }}
+  </h4>
+</body>

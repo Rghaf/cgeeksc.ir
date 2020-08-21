@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include(('app_blog.urls', 'app_blog'), namespace='app-blog')),
     path('', include(('app_event.urls', 'app_event'), namespace='app-event')),
     path('', include(('app_account.urls', 'app_account'), namespace='app-account')),
+    path('', include(('app_admin.urls', 'app_admin'), namespace='app-admin')),
     path('', include(('app_project.urls', 'app_project'), namespace='app-project')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
     url(r'^ckeditor/upload/', login_required(upload), name='ckeditor_upload'),

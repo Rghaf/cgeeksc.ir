@@ -14,88 +14,104 @@
 
 {% block content %}
   <br>
-  <div class="container">
-    <div class="block-img text-center">
-      {% if Post.image %}
-        <img src="{{ Post.image.url }}" class="post-img" alt="Notebook">
-      {% else %}
-        <img src="{{ Post.img_404 }}" class="post-img">
-      {% endif %}
-        <div class="content text-center">
-          <h1 style="font-size:4vw;">{{ Post.title }}</h1>
-          <span class="badge badge-light">
-            {% if Post.category.mother %}
-              <i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i>
-              <a class="my-url" href="{{Post.category.mother.get_absolute_url}}">{{ Post.category.mother }}</a>/
-              <a class="my-url" href="{{ Post.category.get_absolute_url}}"> {{ Post.category }} </a>
-            {% elif Post.category.mother is Null %}
-              <a class="my-url" href="{{ Post.category.get_absolute_url}}"><i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i> {{ Post.category }} </a>
-            {% endif %}
-          </span>
-          <span class="badge badge-light"><i class="far fa-calendar-alt detail-icon" dir="rtl"></i> {{ Post.jdate }} </span>
-          <span class="badge badge-light">
-              <i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i>
-              <a class="my-url" href="{{ Post.user.profile.get_absolute_url }}">{{ Post.user.get_full_name }}</a>
-          </span>     
-        </div>
-    </div>
-  </div>
-  <br>
-  <div class="container">
-    <div class="card block-txt">
-      <div class="card-body">
-        <p>{{ Post.content|safe }} </p>
+  {% if Post.status == 'published' or request.user.profile.is_admin or request.user.profile.is_author %}  
+    <div class="container">
+      <div class="block-img text-center">
+        {% if Post.image %}
+          <img src="{{ Post.image.url }}" class="post-img" alt="Notebook">
+        {% else %}
+          <img src="{{ Post.img_404 }}" class="post-img">
+        {% endif %}
+          <div class="content text-center">
+            <h1 style="font-size:4vw;">{{ Post.title }}</h1>
+            <span class="badge badge-light">
+              {% if Post.category.mother %}
+                <i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i>
+                <a class="my-url" href="{{Post.category.mother.get_absolute_url}}">{{ Post.category.mother }}</a>/
+                <a class="my-url" href="{{ Post.category.get_absolute_url}}"> {{ Post.category }} </a>
+              {% elif Post.category.mother is Null %}
+                <a class="my-url" href="{{ Post.category.get_absolute_url}}"><i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i> {{ Post.category }} </a>
+              {% endif %}
+            </span>
+            <span class="badge badge-light"><i class="far fa-calendar-alt detail-icon" dir="rtl"></i> {{ Post.jdate }} </span>
+            <span class="badge badge-light">
+                <i class="fas fa-folder detail-icon detail-icon" dir="rtl"></i>
+                <a class="my-url" href="{{ Post.user.profile.get_absolute_url }}">{{ Post.user.get_full_name }}</a>
+            </span>     
+          </div>
       </div>
-    </div>
-    <hr>
-    <div>
-      {% with Post as post %}
-        {% include 'components/share.html' %}
-      {% endwith %}
     </div>
     <br>
-    {% if Post.refrence %}
-      <div class="card mb-3" style="text-align: right;">
-        <div class="card-header">منابع</div>
-        <div class="card-body text-dark">
-          <h5 class="card-text">{{ Post.refrence|safe }}</h5>
+    <div class="container">
+      <div class="card block-txt">
+        <div class="card-body">
+          <p>{{ Post.content|safe }} </p>
         </div>
       </div>
-    {% endif %} 
-    <div class="text-center">
+      <hr>
+      <div style="font-size: 50px; text-align: right;">
+        <h4 style="display: inline-block;">ذخیره مقاله:</h4>
+        <span style="display: inline-block;">
+          <a class="my-url" href="{% url 'app-blog:pdf-post' slug=Post.slug %}">
+          <i class="fa fa-file-pdf text-danger modal-icon"></i>
+          </a>
+        </span>
+      </div>
+      <div>
+        {% with Post as post %}
+          {% include 'components/share.html' %}
+        {% endwith %}
+      </div>
       <br>
-      <!-- <h4>دانلود فایل‌ها:</h4> -->
-      {% if Post.youtube_url %}
-        <a href="{{ Post.youtube_url }}" class="btn btn-danger btn-lg active dl-btn" role="button"><i class="fab fa-youtube detail-icon"></i>ویدیو در یوتوب</a>
-      {% endif %}
-      {% if Post.file_url %}
-        <a href="{{ Post.file_url }}" class="btn btn-primary btn-lg active dl-btn" role="button"><i class="fas fa-file-download detail-icon"></i>دانلود فایل‌ها</a>
-      {% endif %}
-      {% if Post.github_url %}
-        <a href="{{ Post.github_url }}" class="btn btn-dark btn-lg active dl-btn" role="button"><i class="fab fa-github detail-icon"></i>در گیت‌هاب</a>
-      {% endif %}
-    </div>
-    <br>     
-    <div class="card border-secondary">
-      <div class="media" style="text-align: right;">
-        <div class="media-body">
-          <div class="row">
-            <div class="col-sm-4 col-md-2 text-center">
-              {% if Post.user.profile.image %}
-                <img src="{{ Post.user.profile.image.url }}" class="avatar-post" alt="...">
-              {% else %}
-                <img src="{{ Post.user.profile.img_404 }}" class="avatar-post" alt="...">
-              {% endif %}
-            </div>
-            <div class="col-sm-8 col-md-10">
-              <br>
-              <h5 class="mt-0 mb-1"><a class="my-url" href="{{ Post.user.profile.get_absolute_url }}">{{ Post.user.get_full_name }}</a></h5>
-              <p>{{ Post.user.profile.bio|safe }} </p>
+      {% if Post.refrence %}
+        <div class="card mb-3" style="text-align: right;">
+          <div class="card-header">منابع</div>
+          <div class="card-body text-dark">
+            <h5 class="card-text">{{ Post.refrence|safe }}</h5>
+          </div>
+        </div>
+      {% endif %} 
+      <div class="text-center">
+        <br>
+        <!-- <h4>دانلود فایل‌ها:</h4> -->
+        {% if Post.youtube_url %}
+          <a href="{{ Post.youtube_url }}" class="btn btn-danger btn-lg active dl-btn" role="button"><i class="fab fa-youtube detail-icon"></i>ویدیو در یوتوب</a>
+        {% endif %}
+        {% if Post.file_url %}
+          <a href="{{ Post.file_url }}" class="btn btn-primary btn-lg active dl-btn" role="button"><i class="fas fa-file-download detail-icon"></i>دانلود فایل‌ها</a>
+        {% endif %}
+        {% if Post.github_url %}
+          <a href="{{ Post.github_url }}" class="btn btn-dark btn-lg active dl-btn" role="button"><i class="fab fa-github detail-icon"></i>در گیت‌هاب</a>
+        {% endif %}
+      </div>
+      <br>     
+      <div class="card border-secondary">
+        <div class="media" style="text-align: right;">
+          <div class="media-body">
+            <div class="row">
+              <div class="col-sm-4 col-md-2 text-center">
+                {% if Post.user.profile.image %}
+                  <img src="{{ Post.user.profile.image.url }}" class="avatar-post" alt="...">
+                {% else %}
+                  <img src="{{ Post.user.profile.img_404 }}" class="avatar-post" alt="...">
+                {% endif %}
+              </div>
+              <div class="col-sm-8 col-md-10">
+                <br>
+                <h5 class="mt-0 mb-1"><a class="my-url" href="{{ Post.user.profile.get_absolute_url }}">{{ Post.user.get_full_name }}</a></h5>
+                <p>{{ Post.user.profile.bio|safe }} </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    {% else %}
+      <div class="containr">
+        <div class="card text-center">
+          <h1 style="padding: 30px;">چیزی با این آدرس یافت نشد!</h1>
+        </div>
+      </div>
+    {% endif %}
     <br>
     <h1 class="new text-center">مطالب پیشنهادی</h1>
     <hr class="my">
@@ -120,87 +136,88 @@
       {% endfor  %}
     </div>
     <br>
-    <!-- show comments -->
-    <div class="card">
-      {% if Comment %}
-        <h1 class="text-center" style="margin: 15px;">{{Comment.count}} دیدگاه</h1>
-        <hr>
-        {% for com in Comment  %}
-          {% if com.mother == None %}
-            <div class="media">
-              {% if com.user.profile.image %}
-                <img class="avatar-com align-self-start mr-2" src="{{ com.user.profile.image.url }}">
-              {% else %}
-                <img class="avatar-com align-self-start mr-2" src="{{ com.user.profile.img_404 }}">
-              {% endif %}
-              <div class="media-body" style="margin: 15px;">
-                <h5 class="mt-0">{{com.user.get_full_name}}</h5>
-                <p>{{com.content}}</p>
-                <span class="badge badge-info"><i class="far fa-calendar-alt detail-icon"></i>{{com.jdate}}</span>
-                <a data-toggle="collapse" href="#reply{{com.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                  <span class="badge badge-dark"></span><i class="fas fa-reply detail-icon"></i>پاسخ</span>
-                </a>
-                {% if request.user.is_authenticated %}
-                  <div class="collapse text-center" id="reply{{com.id}}">
-                    <form action="{% url 'app-blog:comment-reply' Post.id com.id %}" method="post">{% csrf_token %}
-                      {{ form.as_p }}
-                      <input type="submit" value="ثبت دیدگاه" class="btn btn-primary" style="margin: 15px;">
-                    </form>
-                  </div>
+    {% if Post.status == 'published' or request.user.profile.is_admin or request.user.profile.is_author %}  
+      <!-- show comments -->
+      <div class="card">
+        {% if Comment %}
+          <h1 class="text-center" style="margin: 15px;">{{Comment.count}} دیدگاه</h1>
+          <hr>
+          {% for com in Comment  %}
+            {% if com.mother == None %}
+              <div class="media">
+                {% if com.user.profile.image %}
+                  <img class="avatar-com align-self-start mr-2" src="{{ com.user.profile.image.url }}">
                 {% else %}
-                  <div class="collapse text-center" id="reply{{com.id}}">
-                    <h3 style="margin: 50px;">
-                      برای ثبت دیدگاه باید ابتدا <a href="{% url 'app-account:login' %}">وارد</a> شوید
-                    </h3>
-                  </div>
+                  <img class="avatar-com align-self-start mr-2" src="{{ com.user.profile.img_404 }}">
                 {% endif %}
-                {% for rep in com.childrens.all %}
-                  {% if rep.status == 'a' %}
-                    <div class="media mt-3">
-                      {% if rep.user.profile.image %}
-                        <img class="avatar-com align-self-start mr-2" src="{{ rep.user.profile.image.url }}">
-                      {% else %}
-                        <img class="avatar-com align-self-start mr-2" src="{{ rep.user.profile.img_404 }}">
-                      {% endif %}
-                      <div class="media-body" style="margin: 15px;">
-                        <h5 class="mt-0">{{rep.user.get_full_name}}</h5>
-                        <p>{{rep.content}}</p>
-                        <span class="badge badge-info"><i class="far fa-calendar-alt detail-icon"></i>{{rep.jdate}}</span>
-                      </div>
+                <div class="media-body" style="margin: 15px;">
+                  <h5 class="mt-0">{{com.user.get_full_name}}</h5>
+                  <p>{{com.content}}</p>
+                  <span class="badge badge-info"><i class="far fa-calendar-alt detail-icon"></i>{{com.jdate}}</span>
+                  <a data-toggle="collapse" href="#reply{{com.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="badge badge-dark"></span><i class="fas fa-reply detail-icon"></i>پاسخ</span>
+                  </a>
+                  {% if request.user.is_authenticated %}
+                    <div class="collapse text-center" id="reply{{com.id}}">
+                      <form action="{% url 'app-blog:comment-reply' Post.id com.id %}" method="post">{% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="submit" value="ثبت دیدگاه" class="btn btn-primary" style="margin: 15px;">
+                      </form>
+                    </div>
+                  {% else %}
+                    <div class="collapse text-center" id="reply{{com.id}}">
+                      <h3 style="margin: 50px;">
+                        برای ثبت دیدگاه باید ابتدا <a href="{% url 'app-account:login' %}">وارد</a> شوید
+                      </h3>
                     </div>
                   {% endif %}
-                {% endfor %}
+                  {% for rep in com.childrens.all %}
+                    {% if rep.status == 'a' %}
+                      <div class="media mt-3">
+                        {% if rep.user.profile.image %}
+                          <img class="avatar-com align-self-start mr-2" src="{{ rep.user.profile.image.url }}">
+                        {% else %}
+                          <img class="avatar-com align-self-start mr-2" src="{{ rep.user.profile.img_404 }}">
+                        {% endif %}
+                        <div class="media-body" style="margin: 15px;">
+                          <h5 class="mt-0">{{rep.user.get_full_name}}</h5>
+                          <p>{{rep.content}}</p>
+                          <span class="badge badge-info"><i class="far fa-calendar-alt detail-icon"></i>{{rep.jdate}}</span>
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
               </div>
-            </div>
-            <hr>
-          {% endif %}
-        {% endfor %}
-            
-      {% else %}
-        <div class="card">
-          <h3 class="text-center" style="margin: 50px;">
-            نظری برای نمایش وجود ندارد. شما اولین نظر باشید.
+              <hr>
+            {% endif %}
+          {% endfor %}
+              
+        {% else %}
+          <div class="card">
+            <h3 class="text-center" style="margin: 50px;">
+              نظری برای نمایش وجود ندارد. شما اولین نظر باشید.
+            </h3>
+          </div>
+        {% endif %}
+      </div>
+      <br>
+      <!-- add comment -->
+      <div class="card text-center">
+        <span class="badge badge-pill badge-dark" style="margin: 20px;">
+          <h3 class="text-center" style="margin: 5px;">ارسال دیدگاه</h3>
+        </span>
+        {% if request.user.is_authenticated %}
+            <form method="post">{% csrf_token %}
+              {{ form.as_p }}
+              <input type="submit" value="ثبت دیدگاه" class="btn btn-primary" style="margin: 15px;">
+            </form>
+        {% else %}
+          <h3 style="margin: 50px;">
+            برای ثبت دیدگاه باید ابتدا <a href="{% url 'app-account:login' %}">وارد</a> شوید
           </h3>
-        </div>
-      {% endif %}
+        {% endif %}
+      </div>
     </div>
-    <br>
-    <!-- add comment -->
-    <div class="card text-center">
-      <span class="badge badge-pill badge-dark" style="margin: 20px;">
-        <h3 class="text-center" style="margin: 5px;">ارسال دیدگاه</h3>
-      </span>
-      {% if request.user.is_authenticated %}
-          <form method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="ثبت دیدگاه" class="btn btn-primary" style="margin: 15px;">
-          </form>
-      {% else %}
-        <h3 style="margin: 50px;">
-          برای ثبت دیدگاه باید ابتدا <a href="{% url 'app-account:login' %}">وارد</a> شوید
-        </h3>
-      {% endif %}
-    </div>
-  </div>    
-
+  {% endif  %}
 {% endblock content %}

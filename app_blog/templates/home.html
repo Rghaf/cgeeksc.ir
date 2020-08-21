@@ -31,7 +31,7 @@
                 <img src="{{ slide.img_404 }}" class="d-block w-100" alt="...">
               {% endif %}
               <div class="carousel-caption d-none d-block">
-                <p>{{forloop.counter}}</p>
+                <!-- <p>{{forloop.counter}}</p> -->
               </div>
             </div>
           {% endfor %}
@@ -74,7 +74,7 @@
                 {% if post.youtube_url %}
                     <a href="{{ post.youtube_url }}"><span class="badge badge-danger"><i class="fab fa-youtube"></i></span></a>
                 {% endif %}
-                {% if post.youtube_url %}
+                {% if post.github_url %}
                     <a href="{{ post.github_url }}"><span class="badge badge-dark"><i class="fab fa-github"></i></span></a>
                 {% endif %}
               </div>

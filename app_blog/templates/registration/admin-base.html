@@ -50,7 +50,7 @@
         <a href="{% url 'app-blog:home' %}" class="nav-link">نمایش سایت</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{% url 'app_account:dashboard' %}" class="nav-link">داشبورد</a>
+        <a href="{% url 'app-admin:dashboard' %}" class="nav-link">داشبورد</a>
       </li>
     </ul>
 
@@ -254,6 +254,12 @@
   $(function () {
     $("#datetimepicker1").datetimepicker({
       format: 'YYYY-MM-DD',
+    });
+  });
+
+  $(function () {
+    $("#datetimepicker2").datetimepicker({
+      format: 'YYYY-MM-DD HH:mm:ss',
     });
   });
 </script>
