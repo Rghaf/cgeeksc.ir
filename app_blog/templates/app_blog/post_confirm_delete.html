@@ -18,7 +18,7 @@
         <form method="post">{% csrf_token %}
             <h5>آیا از پاک کردن "{{ object }}" مطمئنید؟</h5>
             <br>
-            <a href="{% url 'app-account:dashboard' %}" class="text-center btn btn-danger btn-lg active" role="button" aria-pressed="true">لغو و بازگشت به داشبورد</a>
+            <a href="{% url 'app-admin:dashboard' %}" class="text-center btn btn-danger btn-lg active" role="button" aria-pressed="true">لغو و بازگشت به داشبورد</a>
             <button type="button submit" value="Confirm" class="btn btn-success btn-lg">تایید</button>
         </form>
       </div>
