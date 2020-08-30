@@ -34,6 +34,7 @@
                 <th>تاریخ</th>
                 <th>ارائه دهنده</th>
                 <th>وضعیت برگزاری</th>
+                <th>نوع رویداد</th>
               </tr>
             </thead>
             <tbody>
@@ -52,6 +53,7 @@
                     <td>{{ event.jdate }}</td>
                     <td>{{ event.person }}</td>
                     <td>{{ event.get_status_display }}</td>
+                    <td>{{ event.get_event_type_display }}</td>
                     <td>
                       <span class="badge badge-danger">
                         <a href="{% url 'app-account:delete-event' pk=event.pk %}"><i class="fas fa-trash-alt"></i></a>

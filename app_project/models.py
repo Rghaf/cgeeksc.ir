@@ -19,6 +19,7 @@ class Project(models.Model):
     image = models.ImageField(null = True, verbose_name='تصویر شاخص')
     slug = models.SlugField(max_length = 250, null = True, unique=True, verbose_name='پیوند')
     description = RichTextUploadingField(null = True, verbose_name='توضیحات')
+    summary = models.TextField(max_length = 300, null =True, verbose_name='خلاصه')
     head = models.ForeignKey(User, null = True, on_delete = models.CASCADE, verbose_name='سرپرست پروژه')
     members = models.ManyToManyField(User, blank =  True, related_name='members', verbose_name='اعضای تیم', help_text='با نگهداشتن کلید Ctrl می‌توانید چند عضو انتخاب کنید')
     category = models.ForeignKey(PCategory, null = True, on_delete = models.CASCADE, related_name='children', verbose_name='دسته بندی')

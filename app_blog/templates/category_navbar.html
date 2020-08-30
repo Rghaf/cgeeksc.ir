@@ -8,7 +8,7 @@
                 <div class="row">
                     {% if cat.childrens.all %}
                         {% for ccat in cat.childrens.all %}
-                            <div class="col-md-3">
+                            <div class="col-md-3  text-center">
                                 <p><a href="{% url 'app-blog:category' slug=ccat.slug %}">
                                     <strong class="sub-menu-heading">
                                         {{ ccat.title }}

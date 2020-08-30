@@ -25,36 +25,32 @@
             <h2 style="float: right;">{{cat.title}}</h2>
             <a href="{% url 'app-project:projectcategory' slug=cat.slug %}" style="float: left;"><p>مشاهده همه</p></a></span>
         </div>
-        <h1></h1>
-        <span>
         {% if cat.children.all|slice:"0:3" %}
-            <div class="row">
-                {% for proj in cat.children.all %}
-                    <div class="col-sm-12 col-md-4">
-                        <div class="card text-center">
-                            {% if proj.image %}
-                                {% thumbnail proj.image "286x180" crop="center" as im%}
-                                    <img src="{{ im.url }}" class="img-fluid" alt="...">
-                                {% endthumbnail %}
-                            {% else %}
-                                <img class="responsive-img" src="{{ Post.img_th404 }}" style="height: 180px;">
-                            {% endif %}
-                            <div class="card-body">
-                                <h5 class="card-title"> {{ proj.title }} </h5>
-                                <p class="card-text"> {{ proj.description|truncatewords:45|safe }} </p>
-                            </div>
-                            {% if proj.youtube_url %}
-                                <a href="{{ proj.youtube_url }}" class="btn btn-danger btn-lg active dl-btn text-center" role="button"><i class="fab fa-youtube detail-icon"></i>ویدیو در یوتوب</a>                                
-                            {% endif %}
-                            {% if proj.github_url %}
-                                <a href="{{ proj.github_url }}" class="btn btn-dark btn-lg active dl-btn text-center" role="button"><i class="fab fa-github detail-icon"></i>پروژه در گیت‌هاب</a>
-                                <hr>
-                            {% endif %}
-                            <a href="{{ proj.get_absolute_url }}" class="card-link text-center"><h5>مشاهده پروژه</h5></a>
-                        </div>
+            {% for proj in cat.children.all %}
+                <div class="card">
+                    <img src="{{ proj.image.url }}" class="img-fluid card-img-top" alt="...">
+                    <div class="card-body">
+                        <a class="my-url" href="{{ proj.get_absolute_url }}"><h4 class="card-title">{{ proj.title}}</h4></a>
+                        <p class="card-text">{{ proj.summary }}</p>
+                        <hr>
+                        <span class="badge badge-info" dir="rtl">
+                            <a class="my-dark-url" href="{{ proj.head.profile.get_absolute_url }}">{{ proj.head.get_full_name }}</a>
+                        </span>
+                        <span class="badge badge-info" dir="rtl">
+                            <a class="my-dark-url" href="{{ proj.category.get_absolute_url }}">{{ proj.category }}</a>
+                        </span>
+                        {% if proj.file_url %}
+                            <a href="{{ proj.file_url }}"><span class="badge badge-dark"><i class="fas fa-download"></i></span></a>
+                        {% endif %}
+                        {% if proj.youtube_url %}
+                            <a href="{{ proj.youtube_url }}"><span class="badge badge-danger"><i class="fab fa-youtube"></i></span></a>
+                        {% endif %}
+                        {% if proj.github_url %}
+                            <a href="{{ proj.github_url }}"><span class="badge badge-dark"><i class="fab fa-github"></i></span></a>
+                        {% endif %}
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         {% endif %}
         <hr>
     {% endfor %}

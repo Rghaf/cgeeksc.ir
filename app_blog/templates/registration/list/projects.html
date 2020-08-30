@@ -48,7 +48,7 @@
                         <img src="{{ event.img_404 }}" style="width: 120px;"/>
                       {% endif %}
                     </td>
-                    <td>{{ project.description|truncatechars:50 }}</td>
+                    <td>{{ project.summary|truncatechars:50 }}</td>
                     <td>{{ project.head.get_full_name }}</td>
                     <td>
                       <span class="badge badge-danger">

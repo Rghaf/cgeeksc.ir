@@ -18,16 +18,15 @@
         <div class="pots-profile card mb-3">
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    {% if project.image %}
-                        <img src="{{ project.image.url }}" class="card-img" style="height: 200px;">
-                    {% else %}
-                        <img src="{{ post.img_th404 }}" class="card-img" style="height: 200px;">
-                    {% endif %}
+                    <img src="{{ project.image.url }}" class="card-img" style="height: 200px;">
                 </div>
                 <div class="col-md-8">
                     <div class="post-card card-body">
                         <a class="my-url" href="{{ project.get_absolute_url }}"><h5 class="card-title">{{ project.title}}</h5></a>
-                        <p class="card-text">{{ project.description|safe|truncatewords:45 }}</p>
+                        <p class="card-text">{{ project.summary|truncatewords:250 }}</p>
+                        <span class="badge badge-info">
+                            <a class="my-dark-url" href="{{ project.head.profile.get_absolute_url }}">{{ project.head.get_full_name }}</a>
+                        </span>
                         <span class="badge badge-info">{{ project.category }}</span>
                         {% if project.file_url %}
                             <a href="{{ project.file_url }}"><span class="badge badge-dark"><i class="fas fa-download"></i></span></a>
@@ -36,7 +35,7 @@
                             <a href="{{ project.youtube_url }}"><span class="badge badge-danger"><i class="fab fa-youtube"></i></span></a>
                         {% endif %}
                         {% if project.github_url %}
-                            <a href="{{ project.github_url }}"><span class="badge badge-danger"><i class="fab fa-youtube"></i></span></a>
+                            <a href="{{ project.github_url }}"><span class="badge badge-dark"><i class="fab fa-github"></i></span></a>
                         {% endif %}
                     </div>
                 </div>

@@ -7,9 +7,8 @@ class callout(models.Model):
     date = models.DateTimeField(auto_now=True, null=True)
 
 class files(models.Model):
-    site = models.FileField(upload_to='uploads/admin', null=True)
-    instagram = models.FileField(upload_to='uploads/admin', null=True)
-    calender = models.FileField(upload_to='uploads/admin', null=True)
+    title = models.CharField(max_length=120, null=True)
+    admin_file = models.FileField(upload_to='uploads/admin', null=True)
 
 class calender(models.Model):
     image = models.ImageField(upload_to='uploads/admin', null=True)

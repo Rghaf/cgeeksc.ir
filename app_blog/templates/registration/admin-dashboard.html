@@ -37,7 +37,7 @@
       <!-- /.info-box-content -->
     </div>
     <div class="info-box bg-gray">
-      <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+      <span class="info-box-icon"><i class="fa fa-edit"></i></span>
       <div class="info-box-content">
         <span class="info-box-text">پست‌ها</span>
         <span class="info-box-number">{{ Post }}</span>
@@ -51,7 +51,7 @@
       <!-- /.info-box-content -->
     </div>
     <div class="info-box bg-dark">
-      <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+      <span class="info-box-icon"><i class="fa fa-bell"></i></span>
       <div class="info-box-content">
         <span class="info-box-text">رویداد</span>
         <span class="info-box-number">{{ Event }}</span>
@@ -103,9 +103,7 @@
             تقویم
           </h4>
         </div>
-        
         {% if Calender %}
-          <img href="">
           <img src="{{ Calender.image.url }}" class="post-img" alt="Notebook">
         {% endif %}
           
@@ -122,13 +120,14 @@
       </div>
       <div class="container text-center">
         <br>
-        <a href="{{File.site.url}}" class="btn btn-info btn-lg active dl-btn" role="button"><i class="fa fa-file-download" style="padding-left: 15px;"></i>دانلود فایل‌های گرافیکی سایت</a>
-        <br>
-        <br>
-        <a href="{{File.instagram.url}}" class="btn btn-info btn-lg active dl-btn" role="button"><i class="fa fa-file-download" style="padding-left: 15px;"></i>دانلود فایل‌های گرافیکی اینستاگرام</a>
-        <br>
-        <br>
-        <a href="{{File.calender.url}}" class="btn btn-info btn-lg active dl-btn" role="button"><i class="fa fa-file-download" style="padding-left: 15px;"></i>دانلود فایل‌های تقویم ماهانه</a>
+        {% if File %}
+          {% for file in File %}
+            <a href="{{ file.admin_file.url }}" class="btn btn-info btn-lg active dl-btn" role="button"><i class="fa fa-file-download" style="padding-left: 15px;"></i>{{ file.title}}</a>
+            <br>
+          {% endfor %}
+        {% else %}
+          <h3 class="text-center">فایلی وجود ندارد</h3>
+        {% endif %}
         <br>
         <br>
       </div>

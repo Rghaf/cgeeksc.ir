@@ -31,6 +31,7 @@
                         <a class="my-url" href="{{ event.get_absolute_url }}"><h5 class="card-title">{{ event.title}}</h5></a>
                         <p class="card-text">{{ event.summary|safe|truncatewords:45 }}</p>
                         <span class="badge badge-info">{{ event.jdate }}</span>
+                        <span class="badge badge-info">{{ event.get_event_type_display }}</span>
                         <span class="badge
                             {% if event.status == 'a' %}
                                 badge-secondary

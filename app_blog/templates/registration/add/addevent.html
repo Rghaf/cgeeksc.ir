@@ -36,13 +36,17 @@
                             {{ form.person|as_crispy_field }}
                         </div>
                         <div class="col-6">
-                            {{ form.file_url|as_crispy_field }}
-                        </div>
-                        <div class="col-6">
                             {{ form.youtube_url|as_crispy_field }}
                         </div>
                         <div class="col-6">
+                            {{ form.file_url|as_crispy_field }}
+                        </div>
+                        <div class="col-6"></div>
+                        <div class="col-6">
                             {{ form.status|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.event_type|as_crispy_field }}
                         </div>
                         <div class="col-3">
                             <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
@@ -51,6 +55,10 @@
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-12">
+                            <br>
+                            {{ form.addres|as_crispy_field }}
                         </div>
                     </div>
                     <br>

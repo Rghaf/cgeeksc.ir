@@ -40,7 +40,7 @@ class CategoryFieldsMixin():
 class EventFieldsMixin():
     def dispatch(self, request, *args, **kwargs):
         if request.user.profile.is_admin:
-            self.fields = ['title','slug','description','summary','image','date','person','file_url','youtube_url','status']
+            self.fields = ['title','slug','description','summary','image','date','person','file_url','youtube_url', 'event_type','status', 'addres']
         else:
             raise Http404('شما به این صفحه دسترسی ندارید')
         return super().dispatch(request, *args, **kwargs)

@@ -12,6 +12,10 @@ class Event(models.Model):
         ('b', 'آغاز شده'),
         ('c', 'برگزار نشده')
     )
+    TYPE_CHOICES = (
+        ('a', 'مجازی'),
+        ('b', 'حضوری'),
+    )
     title = models.CharField(max_length=250, null=True, verbose_name = "عنوان")
     slug = models.SlugField(max_length=200, null=True, unique=True, verbose_name = "آدرس")
     description = RichTextUploadingField(null = True, verbose_name='توضیحات')
@@ -19,9 +23,11 @@ class Event(models.Model):
     image = models.ImageField(upload_to = 'images/events', null=True, verbose_name='تصویر شاخص')
     date = models.DateField(null = True, verbose_name='تاریخ')
     person = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, verbose_name='ارائه دهنده')
-    file_url = models.CharField(max_length = 750, null = True, blank = True, verbose_name='لینک دانلود فایل')
+    file_url = models.FileField(upload_to='uploads/admin', null=True, blank=True, verbose_name='فایل', help_text='در صورتی که مایل به اشتراک گذاری فایل استفاده شده در رویداد هستید از این قسمت وارد کنید.')
     youtube_url = models.CharField(max_length = 500, null = True, blank = True, verbose_name='لینک ویدیو یوتوب')
     status = models.CharField(max_length=1, null = True, choices = STATUS_CHOICES, verbose_name='وضعیت برگزاری')
+    event_type = models.CharField(max_length=1, null = True, choices = TYPE_CHOICES, verbose_name='نوع رویداد')
+    addres = models.TextField(null = True, blank=True, max_length = 500, verbose_name='آدرس', help_text='آدرس محل و یا لینک دسترسی به رویداد را در این قسمت قرار دهید')
 
     def img_404(self):
         return settings.POST_404

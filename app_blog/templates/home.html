@@ -55,8 +55,6 @@
               {% else %}
                 <img src="{{ post.img_th404 }}" class="img-fluid card-img-top" style="height: 219px;">
               {% endif %}
-                
-              
               <div class="card-body">
                 <a class="my-url" href="{{ post.get_absolute_url }}"><h4 class="card-title">{{ post.title}}</h4></a>
                 <p class="card-text">{{ post.summary|safe }}</p>
@@ -122,7 +120,7 @@
         </div>
       </div>
 
-      <h1 class="text-center" style="padding: 25px;">آخرین جلسات</h1>
+      <h1 class="text-center" style="padding: 25px;">آخرین رویدادها</h1>
       
       <div class="container">
         <div class="card-deck">
@@ -138,6 +136,7 @@
                 <a class="my-url" href="{{ event.get_absolute_url }}"><h5 class="card-title">{{ event.title}}</h5></a>
                 <p class="card-text">{{ event.summary|safe }}</p>
                 <span class="badge badge-info"><small class="text-muted"></small>{{ event.jdate }}</small></span>
+                <span class="badge badge-info">{{ event.get_event_type_display }}</span>
                 <span class="badge 
                   {% if event.status == 'a' %}
                     badge-secondary

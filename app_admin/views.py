@@ -21,8 +21,8 @@ def dashboard(request):
                 post.status = 'published'
                 post.save()
     if request.user.profile.is_admin or request.user.profile.is_author:
-        ctx['Callout'] = callout.objects.all().order_by('-id')[:5]
-        ctx['File'] = files.objects.last()
+        ctx['Callout'] = callout.objects.all().order_by('-id')[:3]
+        ctx['File'] = files.objects.all()
         ctx['Calender'] = calender.objects.last()
         ctx['Comment'] = Comment.objects.all().count
         ctx['Domment'] = Comment.objects.filter(status='d').count
