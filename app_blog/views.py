@@ -40,7 +40,7 @@ def search(request):
         word = request.POST.get('q')
         if word:
             ctx['word'] = word
-            ctx['Post'] = Post.objects.filter(Q(title__icontains = word) | Q(content__icontains = word) | Q(summary__icontains = word))
+            ctx['Post'] = Post.objects.filter(status='published').filter(Q(title__icontains = word) | Q(content__icontains = word) | Q(summary__icontains = word))
             ctx['Event'] = Event.objects.filter(Q(title__icontains = word) | Q(description__icontains = word) | Q(summary__icontains = word))
             ctx['Project'] = Project.objects.filter(Q(title__icontains = word) | Q(description__icontains = word))
     return render(request, 'search.html', ctx)

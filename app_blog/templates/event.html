@@ -47,6 +47,14 @@
       </div>
     </div>
     <hr>
+    {% if Event.addres %}
+      <div class="card text-center">
+        <h4 style="padding: 15px;">دسترسی به جلسه</h4>
+        <hr>
+        <p>{{ Event.addres|safe }}</p>
+      </div>
+    {% endif %}
+    <hr>
     <div>
       {% with Event as post %}
         {% include 'components/share.html' %}
