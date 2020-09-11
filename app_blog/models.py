@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
+from django.contrib.sitemaps import ping_google
 import jdatetime
 
 class Slider(models.Model):
@@ -59,6 +60,7 @@ class Post(models.Model):
     content = RichTextUploadingField(null = True, verbose_name='متن اصلی')
     summary = models.TextField(max_length = 300, null =True, verbose_name='خلاصه')
     image = models.ImageField(upload_to = 'images/posts', null=True, verbose_name='تصویر شاخص')
+    image_alt = models.CharField(max_length=250, null=True, blank=True, verbose_name='متن جایگزین')
     publish_date = models.DateField(auto_now_add=True)
     status = models.CharField(null=True, max_length=9, choices=STATUS_CHOICES, verbose_name='وضعیت انتشار')
     category = models.ForeignKey(Category ,on_delete=models.CASCADE, null=True, verbose_name='دسته بندی')
@@ -68,6 +70,10 @@ class Post(models.Model):
     refrence = models.TextField(max_length=1500, null=True, blank=True, verbose_name='منابع')
     publish_time = models.DateTimeField(null=True, blank=True, verbose_name='زمانبندی انتشار', help_text='در صورتی که مایل هستید پست به صورت خودکار منتشر شود تاریخ و ساعت مورد نظر را انتخاب کنید. در غیر این صورت این فیلد را خالی بگذارید.')
     
+    def save(self, force_insert=False, force_update=False):
+        super().save(force_insert, force_update)
+        ping_google(sitemap_url='/sitemap.xml')
+
     def __str__(self):
         return "%s - %s" % (self.title, self.status)
 

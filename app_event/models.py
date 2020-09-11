@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.contrib.sitemaps import ping_google
 import jdatetime
 
 
@@ -28,6 +29,10 @@ class Event(models.Model):
     status = models.CharField(max_length=1, null = True, choices = STATUS_CHOICES, verbose_name='وضعیت برگزاری')
     event_type = models.CharField(max_length=1, null = True, choices = TYPE_CHOICES, verbose_name='نوع رویداد')
     addres = models.TextField(null = True, blank=True, max_length = 500, verbose_name='آدرس', help_text='آدرس محل و یا لینک دسترسی به رویداد را در این قسمت قرار دهید')
+
+    def save(self, force_insert=False, force_update=False):
+        super().save(force_insert, force_update)
+        ping_google(sitemap_url='/sitemap.xml')
 
     def img_404(self):
         return settings.POST_404

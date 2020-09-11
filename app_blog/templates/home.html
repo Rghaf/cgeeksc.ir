@@ -51,7 +51,13 @@
           {% for post in Post %}
             <div class="card">
               {% if post.image %}
-                <img src="{{ post.image.url }}" class="img-fluid card-img-top" alt="...">
+                <img src="{{ post.image.url }}" class="img-fluid card-img-top" alt="
+                {% if post.image_alt %}
+                   {{ post.image_alt }}
+                {% else %}
+                   جامعه گیک‌های کامپیوتر
+                {% endif %}
+                  ">
               {% else %}
                 <img src="{{ post.img_th404 }}" class="img-fluid card-img-top" style="height: 219px;">
               {% endif %}

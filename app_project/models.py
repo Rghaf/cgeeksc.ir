@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
+from django.contrib.sitemaps import ping_google
+
 
 # Create your models here.
 class PCategory(models.Model):
@@ -27,5 +29,9 @@ class Project(models.Model):
     youtube_url = models.CharField(max_length = 2250, null = True, blank = True, verbose_name='لینک ویدیو یوتوب')
     github_url = models.CharField(max_length = 2250, null = True, blank = True, verbose_name='لینک پروژه در گیت‌هاب')
     
+    def save(self, force_insert=False, force_update=False):
+        super().save(force_insert, force_update)
+        ping_google(sitemap_url='/sitemap.xml')
+
     def get_absolute_url(self):
         return reverse('app-project:project', kwargs={'slug': self.slug})

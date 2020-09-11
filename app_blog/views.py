@@ -120,11 +120,10 @@ def category(request, slug):
     category = get_object_or_404(Category, slug=slug)
     mother = category.mother
     post_list = Post.objects.all().filter(category__slug=slug, status='published')
-    if category.mother:
-        post_list = Post.objects.all().filter(category__slug=slug, status='published')
-    else:
-        for child in category.childrens.all():
-            post_list = post_list.union(Post.objects.all().filter(category__title=child, status='published'))
+    for child in category.childrens.all():
+        post_list = post_list.union(Post.objects.all().filter(category__title=child, status='published'))
+        for cchild in child.childrens.all():
+            post_list = post_list.union(Post.objects.all().filter(category__title=cchild, status='published'))
     page = request.GET.get('page', 1)
     paginator = Paginator(post_list, 7)
     try:

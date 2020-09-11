@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 
     'app_blog.apps.AppBlogConfig',
     'app_event.apps.AppEventConfig',
@@ -44,8 +46,6 @@ INSTALLED_APPS = [
     'app_project',
     'app_admin',
     
-    'django.contrib.sitemaps',
-
     'sorl.thumbnail',
     # 'social_django',
     'crispy_forms',
@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
         # 'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
@@ -136,6 +136,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
+
+SITE_ID = 1
 
 LANGUAGE_CODE = 'fa-ir'
 

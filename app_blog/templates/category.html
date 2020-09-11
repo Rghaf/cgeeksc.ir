@@ -24,7 +24,13 @@
             <div class="row no-gutters">
                 <div class="col-md-4">
                     {% if post.image %}
-                        <img src="{{ post.image.url }}" class="card-img" style="height: 200px;">
+                        <img src="{{ post.image.url }}" class="card-img" style="height: 200px;" alt="
+                        {% if post.image_alt %}
+                           {{ post.image_alt }}
+                        {% else %}
+                           جامعه گیک‌های کامپیوتر
+                        {% endif %}
+                          ">
                     {% else %}
                         <img src="{{ post.img_th404 }}" class="card-img" style="height: 200px;">
                     {% endif %}

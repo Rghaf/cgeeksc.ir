@@ -12,9 +12,9 @@ from django.forms import ModelForm
 class PostFieldsMixin(): 
     def dispatch(self, request, *args, **kwargs):
         if request.user.profile.is_admin:
-            self.fields = ['title', 'slug', 'content', 'image', 'summary', 'category', 'user',  'status', 'publish_time', 'file_url', 'youtube_url', 'github_url', 'refrence']
+            self.fields = ['title', 'slug', 'content', 'image', 'image_alt', 'summary', 'category', 'user',  'status', 'publish_time', 'file_url', 'youtube_url', 'github_url', 'refrence']
         elif request.user.profile.is_author:
-            self.fields = ['title', 'slug', 'content', 'image', 'summary', 'category', 'file_url', 'youtube_url', 'github_url', 'refrence']
+            self.fields = ['title', 'slug', 'content', 'image', 'image_alt', 'summary', 'category', 'file_url', 'youtube_url', 'github_url', 'refrence']
         else:
             raise Http404('شما به این صفحه دسترسی ندارید')
         return super().dispatch(request, *args, **kwargs)
