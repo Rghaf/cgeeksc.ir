@@ -18,7 +18,7 @@ from weasyprint import HTML
 
 def home(request):
     ctx = {}
-    ctx['Post'] = Post.objects.filter(status='published').order_by('-id')[0:3]
+    ctx['Post'] = Post.objects.filter(status='published').order_by('-publish_date')[0:3]
     ctx['Event'] = Event.objects.all().order_by("-date")[0:3]
     ctx['Slider'] = Slider.objects.all().order_by("-id")[0:5]
     drafts = Post.objects.filter(status='draft')

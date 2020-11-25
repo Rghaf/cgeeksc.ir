@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title-meta %}
+  حمایت از جامعه گیک‌های کامپیوتر
+{% endblock title-meta %}
+  
+  {% block content%}
+    <br />
+    <br />
+    <div class="container">
+      {{ current_site.domain }}
+
+      <div class="card text-center">
+        <h3>از حمایت شما ممنونیم</h3>
+        <p>حمایت‌های شما می‌تواند به تولید محتوای بهتر و افزایش کیفیت فعالیت‌های جامعه گیک‌های کامپیوتر و همچنین برگزاری جلسات بیشتر کمک کند</p>
+        <div>
+          <form class="form-group" method="POST">{% csrf_token %}
+            <label for="amount">مبلغ دلخواه</label> <br />
+            <input type="number" name="amount" id="amount" placeholder="به تومان وارد کنید مثل:1000" required>
+            <button type="submit" class="btn btn-primary">پرداخت</button>
+          </form>
+        </div>
+      </div>
+    </div> 
+  {% endblock %}
+
+    

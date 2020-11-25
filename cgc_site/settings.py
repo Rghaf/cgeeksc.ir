@@ -38,13 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.sitemaps',
 
     'app_blog.apps.AppBlogConfig',
     'app_event.apps.AppEventConfig',
     'app_account.apps.AppAccountConfig',
     'app_project',
     'app_admin',
+    'app_payment',
+    'django.contrib.sitemaps',
     
     'sorl.thumbnail',
     # 'social_django',
