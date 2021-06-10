@@ -10,7 +10,7 @@ chardet==3.0.4
 cryptography==2.9.2
 cssselect2==0.3.0
 defusedxml==0.7.0rc1
-Django==3.0.6
+Django==3.1.12
 django-ckeditor==5.9.0
 django-compat==1.0.15
 django-crispy-forms==1.9.1
